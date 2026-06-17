@@ -1,13 +1,14 @@
 #include "wifi.h"
+#include "sdkconfig.h"
 
 #define TAG_WIFI "WIFI"
-#define CONFIG_MAXIMUM_RETRY 5
+// #define CONFIG_MAXIMUM_RETRY 5
 // #define CONFIG_WIFI_SSID "brisa-182118"
 // #define CONFIG_WIFI_PASSWORD "1yzn6sri"
-#define CONFIG_WIFI_SSID "Lost"
-#define CONFIG_WIFI_PASSWORD "samuel1234"
+// #define CONFIG_WIFI_SSID "Lost"
+// #define CONFIG_WIFI_PASSWORD "samuel1234"
 
-#define INFO_AP "SSID: " CONFIG_WIFI_SSID ", password: " CONFIG_WIFI_PASSWORD
+#define INFO_AP "SSID: " CONFIG_ESP_WIFI_SSID ", password: " CONFIG_ESP_WIFI_PASSWORD
 
 static EventGroupHandle_t wifi_event_group;
 static int retry_count = 0;
@@ -25,7 +26,7 @@ static void _wifi_event_handler(void *event_handler_arg, esp_event_base_t event_
         }
         case WIFI_EVENT_STA_DISCONNECTED: {
             ESP_LOGI(TAG_WIFI, "WiFi disconnected");
-            if (retry_count < CONFIG_MAXIMUM_RETRY) {
+            if (retry_count < CONFIG_ESP_WIFI_MAX_RETRY) {
                 esp_wifi_connect();
                 retry_count++;
                 ESP_LOGI(TAG_WIFI, "Retry to connect to the AP");
@@ -71,8 +72,8 @@ void wifi_init_sta() {
 
     wifi_config_t wifi_config = {
         .sta = {
-            .ssid = CONFIG_WIFI_SSID,
-            .password = CONFIG_WIFI_PASSWORD,
+            .ssid = CONFIG_ESP_WIFI_SSID,
+            .password = CONFIG_ESP_WIFI_PASSWORD,
         },
     };
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));

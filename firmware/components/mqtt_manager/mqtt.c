@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include "mqtt.h"
 
-#define CONFIG_MQTT_BROKER "mqtt://10.42.0.1:1883"
-// #define CONFIG_MQTT_BROKER "mqtt://mqtt.eclipseprojects.io"
-
 esp_mqtt_client_handle_t client;
 
 static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event) {
@@ -42,10 +39,10 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
 void mqtt_app_start(void) {
     esp_mqtt_client_config_t mqtt_cfg = {
-        .broker.address.uri = CONFIG_MQTT_BROKER,
+        .broker.address.uri = CONFIG_MQTT_BROKER_URI,
         .broker.address.port = 1883,
-        .credentials.username = "boia_esc",
-        .credentials.authentication.password = "2024"
+        .credentials.username = CONFIG_MQTT_USERNAME,
+        .credentials.authentication.password = CONFIG_MQTT_PASSWORD
     };
     client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, client);

@@ -1,0 +1,64 @@
+menu "VanGuard Kids — Configurações de Rede"
+
+    menu "WiFi"
+
+        config ESP_WIFI_SSID
+            string "SSID (nome da rede)"
+            default "Wokwi-GUEST"
+            help
+                Nome da rede WiFi à qual o dispositivo irá se conectar.
+
+        config ESP_WIFI_PASSWORD
+            string "Senha do WiFi"
+            default ""
+            help
+                Senha da rede WiFi. Deixe em branco para redes abertas.
+
+        config ESP_WIFI_MAX_RETRY
+            int "Máximo de tentativas de reconexão"
+            default 5
+            range 1 20
+            help
+                Número de tentativas antes de desistir e reportar falha.
+
+    endmenu
+
+    menu "MQTT"
+
+        config MQTT_BROKER_URI
+            string "URI do Broker"
+            default "mqtt://localhost:1883"
+            help
+                URI completa do broker MQTT. Use mqtt:// para sem TLS
+                ou mqtts:// para conexão com TLS.
+
+        config MQTT_USERNAME
+            string "Usuário"
+            default "vanguard_kids"
+            help
+                Nome de usuário para autenticação no broker MQTT.
+
+        config MQTT_PASSWORD
+            string "Senha"
+            default "vanguard_kids_pw"
+            help
+                Senha para autenticação no broker MQTT.
+
+        config MQTT_CLIENT_ID
+            string "Client ID"
+            default "vanguard-esp32"
+            help
+                Identificador único deste cliente no broker.
+                Deve ser único por dispositivo na rede.
+
+        config MQTT_KEEPALIVE
+            int "Keepalive (segundos)"
+            default 60
+            range 10 300
+            help
+                Intervalo de keepalive em segundos para manter
+                a conexão ativa com o broker.
+
+    endmenu
+
+endmenu

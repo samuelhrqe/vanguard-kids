@@ -5,6 +5,8 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
+#include "mqtt.h"
+#include "wifi.h"
 
 #include "adc_manager.h"
 
@@ -107,6 +109,16 @@ static void seats_task(void *pvParameters)
 
 void app_main(void) {
   esp_log_level_set(TAG, ESP_LOG_VERBOSE);
+
+  ESP_ERROR_CHECK(nvs_flash_init());
+  wifi_init_sta();
+
+  vTaskDelay(2000 / portTICK_PERIOD_MS);
+
+  mqtt_app_start();
+
+  mqtt_publish("vanguard-kids/status", "online");
+
   ChannelConfig adc_channels[SEAT_COUNT] = {
     { .channel = ADC_CHANNEL_6 },
     { .channel = ADC_CHANNEL_7 },
@@ -116,12 +128,12 @@ void app_main(void) {
 
   ESP_ERROR_CHECK(adc_manager_init(adc_channels, SEAT_COUNT));
 
-  xTaskCreate(
-    seats_task,
-    "seats_task",
-    4096,
-    NULL,
-    5,
-    NULL
-  );
+  // xTaskCreate(
+  //   seats_task,
+  //   "seats_task",
+  //   4096,
+  //   NULL,
+  //   5,
+  //   NULL
+  // );
 }
