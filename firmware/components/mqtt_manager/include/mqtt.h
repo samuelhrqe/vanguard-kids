@@ -28,11 +28,13 @@
 extern "C" {
 #endif
 
-#define TAG_MQTT "MQTT"
-
-extern int mqtt_connected;
+#define TAG_MQTT "MQTT Manager"
 
 void mqtt_app_start(void);
+
+void set_mqtt_connected(bool connected);
+
+bool mqtt_is_connected(void);
 
 void mqtt_publish(const char *topic, const char *data);
 

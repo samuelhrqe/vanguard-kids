@@ -1,12 +1,6 @@
 #include "wifi.h"
 #include "sdkconfig.h"
 
-#define TAG_WIFI "WIFI"
-// #define CONFIG_MAXIMUM_RETRY 5
-// #define CONFIG_WIFI_SSID "brisa-182118"
-// #define CONFIG_WIFI_PASSWORD "1yzn6sri"
-// #define CONFIG_WIFI_SSID "Lost"
-// #define CONFIG_WIFI_PASSWORD "samuel1234"
 
 #define INFO_AP "SSID: " CONFIG_ESP_WIFI_SSID ", password: " CONFIG_ESP_WIFI_PASSWORD
 
@@ -38,7 +32,7 @@ static void _wifi_event_handler(void *event_handler_arg, esp_event_base_t event_
         }
         case IP_EVENT_STA_GOT_IP: {
             ip_event_got_ip_t *event = (ip_event_got_ip_t *) event_data;
-            ESP_LOGI(TAG_WIFI, "Got IP:" IPSTR, IP2STR(&event->ip_info.ip));
+            ESP_LOGI(TAG_WIFI, "Got IP: " IPSTR, IP2STR(&event->ip_info.ip));
             retry_count = 0;
             xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_BIT);
             break;

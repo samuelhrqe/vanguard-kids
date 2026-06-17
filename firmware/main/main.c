@@ -18,7 +18,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
-#include "esp_timer.h"   /* esp_timer_get_time() */
+#include "time_manager.h"
 #include "mqtt.h"
 #include "wifi.h"
 
@@ -59,24 +59,24 @@ typedef enum {
 } SeatId;
 
 typedef struct {
-	SeatId  id;
-	char    name[12];   /* cópia segura para envio via fila — sem ponteiros */
-	int     adc_raw;
-	float   voltage;
-	float   weight_grams;
-	bool    occupied;
-	int64_t ts_ms;      /* [4] timestamp (ms desde boot) da leitura */
+	SeatId id;
+	char name[12];
+	int adc_raw;
+	float voltage;
+	float weight_grams;
+	bool occupied;
+	int64_t ts;
 } SeatMessage;
 
 typedef struct {
-	SeatId       id;
-	const char* name;          /* ponteiro para literal estático — não copiar */
+	SeatId id;
+	const char* name;
 	adc_channel_t adc_channel;
-	int          adc_raw;
-	float        voltage;
-	float        weight_grams;
-	bool         occupied;
-	bool         last_occupied; /* [2] estado anterior para detecção de mudança */
+	int adc_raw;
+	float voltage;
+	float weight_grams;
+	bool occupied;
+	bool last_occupied;
 } Seat;
 
 // Seat configurations — mapping seat IDs to ADC channels and names
@@ -100,6 +100,9 @@ void app_main(void) {
 
 	ESP_ERROR_CHECK(nvs_flash_init());
 	wifi_init_sta();
+
+	// SNTP sync
+	time_manager_init();
 
 	vTaskDelay(pdMS_TO_TICKS(2000));
 
@@ -140,15 +143,13 @@ static void update_seat(Seat* seat) {
 	seat->occupied = seat->weight_grams >= OCCUPIED_THRESHOLD_G;
 }
 
-/* ─── vTaskSeats ──────────────────────────────────────────────────────────── */
-
 static void vTaskSeats(void* pvParameters) {
 	UNUSED(pvParameters);
 
 	SeatMessage message;
 
 	while (1) {
-		ESP_LOGI(TAG, "-----------------------------");
+		ESP_LOGI(TAG, "-----------------------------------------------------");
 
 		for (int i = 0; i < SEAT_COUNT; i++) {
 			update_seat(&seats[i]);
@@ -178,7 +179,7 @@ static void vTaskSeats(void* pvParameters) {
 			message.voltage = seats[i].voltage;
 			message.weight_grams = seats[i].weight_grams;
 			message.occupied = seats[i].occupied;
-			message.ts_ms = esp_timer_get_time() / 1000; /* [4] µs → ms */
+			message.ts = get_epoch();
 
 			strncpy(message.name, seats[i].name, sizeof(message.name));
 			message.name[sizeof(message.name) - 1] = '\0';
@@ -207,14 +208,14 @@ static void vTaskMQTT(void* pvParameters) {
 
 	while (1) {
 		TickType_t now = xTaskGetTickCount();
-		
+
 		if ((now - last_heartbeat) >= pdMS_TO_TICKS(HEARTBEAT_INTERVAL_MS)) {
-			if (mqtt_connected) {
-				int64_t ts_ms = esp_timer_get_time() / 1000;
+			if (mqtt_is_connected()) {
+				int64_t ts = get_epoch();
 
 				snprintf(payload, sizeof(payload),
-					"{\"ts_ms\":%" PRId64 ",\"seats\":%d}",
-					ts_ms,
+					"{\"ts\":%" PRId64 ",\"seats\":%d}",
+					ts,
 					SEAT_COUNT
 				);
 
@@ -240,22 +241,24 @@ static void vTaskMQTT(void* pvParameters) {
 			payload,
 			sizeof(payload),
 			"{"
+			"\"client_id\":\"%s\","
 			"\"seat\":\"%s\","
 			"\"adc_raw\":%d,"
 			"\"voltage\":%.2f,"
 			"\"weight_g\":%.0f,"
 			"\"occupied\":%s,"
-			"\"ts_ms\":%" PRId64
+			"\"ts\":%" PRId64
 			"}",
+			CONFIG_MQTT_CLIENT_ID,
 			msg.name,
 			msg.adc_raw,
 			msg.voltage,
 			msg.weight_grams,
 			msg.occupied ? "true" : "false",
-			msg.ts_ms
+			msg.ts
 		);
 
-		if (mqtt_connected) {
+		if (mqtt_is_connected()) {
 			mqtt_publish(topic, payload);
 			ESP_LOGI(TAG, "Publicado → %s", topic);
 		}

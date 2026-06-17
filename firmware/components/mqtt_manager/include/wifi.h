@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 
-#define TAG_MQTT "MQTT"
+#define TAG_WIFI "WiFi Manager"
 
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT      BIT1
