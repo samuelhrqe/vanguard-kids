@@ -30,6 +30,8 @@ extern "C" {
 
 #define TAG_MQTT "MQTT"
 
+extern int mqtt_connected;
+
 void mqtt_app_start(void);
 
 void mqtt_publish(const char *topic, const char *data);

@@ -2,13 +2,16 @@
 #include "mqtt.h"
 
 esp_mqtt_client_handle_t client;
+int mqtt_connected = 0;
 
 static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event) {
     switch (event->event_id) {
         case MQTT_EVENT_CONNECTED:
+            mqtt_connected = 1;
             ESP_LOGI(TAG_MQTT, "Connected to MQTT broker");
             break;
         case MQTT_EVENT_DISCONNECTED:
+            mqtt_connected = 0;
             ESP_LOGI(TAG_MQTT, "Disconnected from MQTT broker");
             break;
         case MQTT_EVENT_SUBSCRIBED:

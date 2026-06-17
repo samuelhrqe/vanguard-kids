@@ -7,7 +7,7 @@
 #define ADC_ATTEN_USED     ADC_ATTEN_DB_11
 #define ADC_BITWIDTH_USED  ADC_BITWIDTH_12
 
-static const char *TAG = "ADCManager";
+static const char *TAG = "ADC Manager";
 
 static adc_oneshot_unit_handle_t adc_handle;
 static bool adc_initialized = false;
