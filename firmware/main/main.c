@@ -117,7 +117,6 @@ void app_main(void) {
 
 	ESP_ERROR_CHECK(adc_manager_init(adc_channels, SEAT_COUNT));
 
-
 	xSeatQueue = xQueueCreate(SEAT_QUEUE_LENGTH, sizeof(SeatMessage));
 	if (xSeatQueue == NULL) {
 		ESP_LOGE(TAG, "Falha ao criar fila de assentos");
