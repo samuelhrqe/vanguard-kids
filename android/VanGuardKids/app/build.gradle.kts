@@ -6,6 +6,10 @@ android {
     namespace = "br.unicamp.iot.vanguardkids"
     compileSdk = 37
 
+    buildFeatures {
+        aidl = true
+    }
+
     defaultConfig {
         applicationId = "br.unicamp.iot.vanguardkids"
         minSdk = 26
