@@ -26,6 +26,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container20"
+        android:name="br.unicamp.iot.vanguardkids.ui.fragment.StatusFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/container30"
