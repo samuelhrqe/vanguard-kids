@@ -8,6 +8,7 @@ android {
 
     buildFeatures {
         aidl = true
+        buildConfig = true
     }
 
     defaultConfig {
@@ -18,6 +19,18 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "MQTT_USERNAME",
+            "\"vanguard_kids\""
+        )
+
+        buildConfigField(
+            "String",
+            "MQTT_PASSWORD",
+            "\"vanguard_kids_pw\""
+        )
     }
 
     buildTypes {
@@ -40,6 +53,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.identity.jvm)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
