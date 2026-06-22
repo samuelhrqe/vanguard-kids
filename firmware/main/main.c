@@ -213,7 +213,8 @@ static void vTaskMQTT(void* pvParameters) {
 				int64_t ts = get_epoch();
 
 				snprintf(payload, sizeof(payload),
-					"{\"ts\":%" PRId64 ",\"seats\":%d}",
+					"{\"client_id\":\"%s\",\"ts\":%" PRId64 ",\"seats\":%d}",
+					CONFIG_MQTT_CLIENT_ID,
 					ts,
 					SEAT_COUNT
 				);
