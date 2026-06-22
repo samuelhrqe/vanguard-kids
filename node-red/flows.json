@@ -1,0 +1,529 @@
+[
+    {
+        "id": "e36b668a12db8bb5",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c027059c13cac823",
+        "type": "mqtt-broker",
+        "name": "Mosquitto",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "25a105596d9fada6",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "92e7e2b04d94e02b",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "31874df65fa676bc",
+        "type": "ui-page",
+        "name": "Seats",
+        "ui": "25a105596d9fada6",
+        "path": "/seats",
+        "icon": "seat-passenger",
+        "layout": "grid",
+        "theme": "92e7e2b04d94e02b",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "d8f095af7c24e4e0",
+        "type": "ui-group",
+        "name": "Histórico de Ocupação",
+        "page": "31874df65fa676bc",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "962e09d2a4814894",
+        "type": "ui-group",
+        "name": "Heartbeat",
+        "page": "4342aa2013cfee5e",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "4342aa2013cfee5e",
+        "type": "ui-page",
+        "name": "Hearbeat",
+        "ui": "25a105596d9fada6",
+        "path": "/heartbeat",
+        "icon": "heart-pulse",
+        "layout": "grid",
+        "theme": "92e7e2b04d94e02b",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 2,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "35d0dc14adfc5a26",
+        "type": "mqtt in",
+        "z": "e36b668a12db8bb5",
+        "name": "",
+        "topic": "vanguard-kids/seats/+",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c027059c13cac823",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 120,
+        "wires": [
+            [
+                "1b9c80a41279eb22"
+            ]
+        ]
+    },
+    {
+        "id": "1e3f565339391307",
+        "type": "mqtt in",
+        "z": "e36b668a12db8bb5",
+        "name": "",
+        "topic": "vanguard-kids/heartbeat",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c027059c13cac823",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 360,
+        "wires": [
+            [
+                "26867e5f464b28a7"
+            ]
+        ]
+    },
+    {
+        "id": "6fbfe324298eb5a2",
+        "type": "ui-chart",
+        "z": "e36b668a12db8bb5",
+        "group": "d8f095af7c24e4e0",
+        "name": "Ocupação dos assentos",
+        "label": "",
+        "order": 1,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "Hora",
+        "xAxisProperty": "payload.ts_ms",
+        "xAxisPropertyType": "msg",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "Ocupação",
+        "yAxisProperty": "payload.occupied",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "1",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 7,
+        "className": "",
+        "interpolation": "linear",
+        "x": 930,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1b9c80a41279eb22",
+        "type": "json",
+        "z": "e36b668a12db8bb5",
+        "name": "JSON Analyzer",
+        "property": "payload",
+        "action": "str",
+        "pretty": true,
+        "x": 420,
+        "y": 120,
+        "wires": [
+            [
+                "7505c632b2bd7e6f"
+            ]
+        ]
+    },
+    {
+        "id": "7505c632b2bd7e6f",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "name": "Normalize Seat Message",
+        "func": "let data = msg.payload;\n\n// Proteção caso a mensagem ainda esteja como string\nif (typeof data === \"string\") {\n    try {\n        data = JSON.parse(data);\n    } catch (error) {\n        node.error(\"Invalid JSON received\", msg);\n        return null;\n    }\n}\n\nif (\n    !data.client_id ||\n    !data.seat ||\n    data.ts === undefined ||\n    data.weight_g === undefined ||\n    data.occupied === undefined\n) {\n    node.warn(\"Incomplete seat message\");\n    return null;\n}\n\nconst epoch = Number(data.ts);\n\nif (!Number.isFinite(epoch) || epoch <= 0) {\n    node.warn(\"Invalid epoch timestamp\");\n    return null;\n}\n\n/*\n * ESP32 envia epoch em segundos.\n * JavaScript Date e ui-chart trabalham melhor com milissegundos.\n */\nconst epochMs = epoch < 1000000000000\n    ? epoch * 1000\n    : epoch;\n\nconst date = new Date(epochMs);\n\nif (Number.isNaN(date.getTime())) {\n    node.warn(\"Invalid date\");\n    return null;\n}\n\nconst brazilFormatter = new Intl.DateTimeFormat(\"pt-BR\", {\n    timeZone: \"America/Sao_Paulo\",\n    year: \"numeric\",\n    month: \"2-digit\",\n    day: \"2-digit\",\n    hour: \"2-digit\",\n    minute: \"2-digit\",\n    second: \"2-digit\",\n    hour12: false\n});\n\ndata.ts_seconds = Math.floor(epochMs / 1000);\ndata.ts_ms = epochMs;\ndata.datetime_brt = brazilFormatter.format(date);\n\n// Campos úteis para nós posteriores\nmsg.payload = data;\nmsg.timestamp = epochMs;\nmsg.seat = data.seat;\nmsg.topic = data.seat;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 120,
+        "wires": [
+            [
+                "6fbfe324298eb5a2",
+                "5b522b2a60e2d03a",
+                "5ee367f76d046d14"
+            ]
+        ]
+    },
+    {
+        "id": "5b522b2a60e2d03a",
+        "type": "debug",
+        "z": "e36b668a12db8bb5",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "ed62f5b56222206f",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "name": "Format Seats Table",
+        "func": "msg.payload = msg.payload.seats.map(seat => ({\n    seat: seat.seat,\n    status: seat.occupied ? \"Occupied\" : \"Available\",\n    occupied: seat.occupied,\n    weight_g: Math.round(seat.weight_g),\n    voltage: Number(seat.voltage.toFixed(2)),\n    adc_raw: seat.adc_raw,\n    last_update: seat.datetime_brt\n}));\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 220,
+        "wires": [
+            [
+                "3d2cb9defdf67083"
+            ]
+        ]
+    },
+    {
+        "id": "5ee367f76d046d14",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "name": "Update Current Seats",
+        "func": "const data = msg.payload;\n\nlet seats = flow.get(\"currentSeats\") || {\n    \"seat-01\": null,\n    \"seat-02\": null,\n    \"seat-03\": null,\n    \"seat-04\": null\n};\n\nseats[data.seat] = {\n    client_id: data.client_id,\n    seat: data.seat,\n    adc_raw: data.adc_raw,\n    voltage: data.voltage,\n    weight_g: data.weight_g,\n    occupied: data.occupied,\n    ts: data.ts,\n    ts_ms: data.ts_ms,\n    datetime_brt: data.datetime_brt\n};\n\nflow.set(\"currentSeats\", seats);\n\nconst seatList = Object.values(seats)\n    .filter(seat => seat !== null);\n\nconst occupiedCount = seatList\n    .filter(seat => seat.occupied)\n    .length;\n\nmsg.payload = {\n    seats: seatList,\n    occupied_count: occupiedCount,\n    available_count: 4 - occupiedCount,\n    total_seats: 4\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 220,
+        "wires": [
+            [
+                "ed62f5b56222206f"
+            ]
+        ]
+    },
+    {
+        "id": "3d2cb9defdf67083",
+        "type": "ui-table",
+        "z": "e36b668a12db8bb5",
+        "group": "d8f095af7c24e4e0",
+        "name": "Tabela de dados",
+        "label": "",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "maxrows": "8",
+        "passthru": false,
+        "autocols": true,
+        "showSearch": true,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "append",
+        "className": "",
+        "x": 1060,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "26867e5f464b28a7",
+        "type": "json",
+        "z": "e36b668a12db8bb5",
+        "name": "JSON Analyzer",
+        "property": "payload",
+        "action": "str",
+        "pretty": true,
+        "x": 420,
+        "y": 360,
+        "wires": [
+            [
+                "d7c9e754e5e11f9c"
+            ]
+        ]
+    },
+    {
+        "id": "d7c9e754e5e11f9c",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "name": "Normalize Heartbeat",
+        "func": "let data = msg.payload;\n\n// Proteção caso a mensagem ainda esteja como string\nif (typeof data === \"string\") {\n    try {\n        data = JSON.parse(data);\n    } catch (error) {\n        node.error(\"Invalid JSON received\", msg);\n        return null;\n    }\n}\n\nif (\n    !data ||\n    !data.client_id ||\n    data.ts === undefined ||\n    data.seats === undefined\n) {\n    node.warn(\"Invalid heartbeat message\");\n    return null;\n}\n\nconst epoch = Number(data.ts);\n\nif (!Number.isFinite(epoch) || epoch <= 0) {\n    node.warn(\"Invalid heartbeat timestamp\");\n    return null;\n}\n\n// ESP32 envia epoch em segundos.\n// JavaScript Date trabalha com milissegundos.\nconst epochMs = epoch < 1000000000000\n    ? epoch * 1000\n    : epoch;\n\nconst date = new Date(epochMs);\n\nconst formattedDate = new Intl.DateTimeFormat(\"pt-BR\", {\n    timeZone: \"America/Sao_Paulo\",\n    day: \"2-digit\",\n    month: \"2-digit\",\n    year: \"numeric\",\n    hour: \"2-digit\",\n    minute: \"2-digit\",\n    second: \"2-digit\",\n    hour12: false\n}).format(date);\n\nmsg.payload = {\n    online: true,\n    status: \"ONLINE\",\n    client_id: data.client_id,\n    seats: Number(data.seats),\n    ts: epoch,\n    ts_ms: epochMs,\n    last_seen: formattedDate\n};\n\nflow.set(\"lastHeartbeat\", msg.payload);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 360,
+        "wires": [
+            [
+                "e739b4036a57fe16",
+                "584f188affeb120a"
+            ]
+        ]
+    },
+    {
+        "id": "e739b4036a57fe16",
+        "type": "trigger",
+        "z": "e36b668a12db8bb5",
+        "name": "Check Heartbeat",
+        "op1": "",
+        "op2": "OFFLINE",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "40",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "topic",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 830,
+        "y": 440,
+        "wires": [
+            [
+                "584f188affeb120a"
+            ]
+        ]
+    },
+    {
+        "id": "97badfebe57536e3",
+        "type": "ui-template",
+        "z": "e36b668a12db8bb5",
+        "group": "962e09d2a4814894",
+        "page": "",
+        "ui": "",
+        "name": "Hearbeat Card",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n    <div\n        class=\"heartbeat-card\"\n        :class=\"\n            !msg || !msg.payload\n                ? 'waiting'\n                : msg.payload.online\n                    ? 'online'\n                    : 'offline'\n        \"\n    >\n        <div class=\"card-header\">\n            <div>\n                <div class=\"card-title\">ESP32 Status</div>\n                <div class=\"card-subtitle\">\n                    MQTT heartbeat monitoring\n                </div>\n            </div>\n\n            <div\n                class=\"status-badge\"\n                :class=\"\n                    !msg || !msg.payload\n                        ? 'waiting-badge'\n                        : msg.payload.online\n                            ? 'online-badge'\n                            : 'offline-badge'\n                \"\n            >\n                <span class=\"status-dot\"></span>\n\n                {{\n                    !msg || !msg.payload\n                        ? \"WAITING\"\n                        : msg.payload.status\n                }}\n            </div>\n        </div>\n\n        <div class=\"card-content\">\n            <div class=\"information-row\">\n                <span class=\"label\">Client ID</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.client_id\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Configured seats</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.seats\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Last heartbeat</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.last_seen\n                            : \"Waiting for heartbeat\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Epoch timestamp</span>\n                <span class=\"value timestamp\">\n                    {{\n                        msg && msg.payload && msg.payload.ts\n                            ? msg.payload.ts\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n        </div>\n\n        <div\n            v-if=\"msg && msg.payload && !msg.payload.online\"\n            class=\"offline-warning\"\n        >\n            No heartbeat has been received within the expected interval.\n        </div>\n    </div>\n</template>\n\n<style scoped>\n.heartbeat-card {\n    width: 100%;\n    min-height: 210px;\n    padding: 20px;\n    border: 1px solid;\n    border-radius: 14px;\n    box-sizing: border-box;\n    transition: border-color 0.3s ease,\n                background-color 0.3s ease;\n}\n\n.heartbeat-card.online {\n    border-color: #2e7d32;\n    background-color: rgba(46, 125, 50, 0.08);\n}\n\n.heartbeat-card.offline {\n    border-color: #c62828;\n    background-color: rgba(198, 40, 40, 0.08);\n}\n\n.heartbeat-card.waiting {\n    border-color: #757575;\n    background-color: rgba(117, 117, 117, 0.08);\n}\n\n.card-header {\n    display: flex;\n    align-items: flex-start;\n    justify-content: space-between;\n    gap: 16px;\n    margin-bottom: 20px;\n}\n\n.card-title {\n    font-size: 1.25rem;\n    font-weight: 700;\n}\n\n.card-subtitle {\n    margin-top: 3px;\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.status-badge {\n    display: flex;\n    align-items: center;\n    gap: 7px;\n    padding: 7px 11px;\n    border-radius: 20px;\n    font-size: 0.75rem;\n    font-weight: 700;\n}\n\n.online-badge {\n    color: #1b5e20;\n    background-color: rgba(76, 175, 80, 0.2);\n}\n\n.offline-badge {\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.2);\n}\n\n.waiting-badge {\n    color: #424242;\n    background-color: rgba(158, 158, 158, 0.2);\n}\n\n.status-dot {\n    width: 9px;\n    height: 9px;\n    border-radius: 50%;\n    background-color: currentColor;\n}\n\n.information-row {\n    display: flex;\n    justify-content: space-between;\n    gap: 16px;\n    padding: 8px 0;\n    border-bottom: 1px solid rgba(128, 128, 128, 0.2);\n}\n\n.information-row:last-child {\n    border-bottom: none;\n}\n\n.label {\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.value {\n    font-weight: 600;\n    text-align: right;\n}\n\n.timestamp {\n    font-family: monospace;\n}\n\n.offline-warning {\n    margin-top: 16px;\n    padding: 10px;\n    border-radius: 8px;\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.12);\n    font-size: 0.85rem;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1280,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "584f188affeb120a",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "name": "Prepare Heartbeat card",
+        "func": "const lastHeartbeat = flow.get(\"lastHeartbeat\") || {\n    client_id: \"Unknown\",\n    seats: 0,\n    ts: null,\n    ts_ms: null,\n    last_seen: \"No heartbeat received\"\n};\n\n// Timeout gerado pelo Trigger\nif (msg.payload === \"OFFLINE\") {\n    msg.payload = {\n        ...lastHeartbeat,\n        online: false,\n        status: \"OFFLINE\"\n    };\n\n    return msg;\n}\n\n// Heartbeat normal\nif (\n    typeof msg.payload === \"object\" &&\n    msg.payload !== null\n) {\n    msg.payload = {\n        ...msg.payload,\n        online: true,\n        status: \"ONLINE\"\n    };\n\n    flow.set(\"lastHeartbeat\", msg.payload);\n\n    return msg;\n}\n\nnode.warn(`Unexpected payload: ${msg.payload}`);\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 360,
+        "wires": [
+            [
+                "97badfebe57536e3",
+                "283d70aaf56a09fc"
+            ]
+        ]
+    },
+    {
+        "id": "283d70aaf56a09fc",
+        "type": "debug",
+        "z": "e36b668a12db8bb5",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 440,
+        "wires": []
+    }
+]
