@@ -27,9 +27,9 @@
 // Memory task size
 #define MEMORY_TASK (2048 * 2)
 
-// ESP_LOG -> Needed to ESP_LOGI, ESP_LOGE, etc in Wokwi
-#define CONFIG_LOG_DEFAULT_LEVEL_VERBOSE 1
-#define CONFIG_LOG_MAXIMUM_LEVEL         5
+// ESP_LOG -> Needed to ESP_LOGI, ESP_LOGE, etc in Wokwi Web Simulator
+// #define CONFIG_LOG_DEFAULT_LEVEL_VERBOSE 1
+// #define CONFIG_LOG_MAXIMUM_LEVEL         5
 
 // Seats
 #define SEAT_COUNT            4
@@ -59,26 +59,29 @@ typedef enum {
 } SeatId;
 
 typedef struct {
-	SeatId id;
-	char name[12];
-	int adc_raw;
+	int64_t ts;
 	float voltage;
 	float weight_grams;
+	SeatId id;
+	int adc_raw;
+	char name[12];
 	bool occupied;
-	int64_t ts;
 } SeatMessage;
 
 typedef struct {
-	SeatId id;
 	const char* name;
 	adc_channel_t adc_channel;
 	int adc_raw;
 	float voltage;
 	float weight_grams;
+	SeatId id;
 	bool initialized;
 	bool occupied;
 	bool last_occupied;
 } Seat;
+
+ESP_STATIC_ASSERT(sizeof(SeatMessage) == 40, "SeatMessage size mismatch");
+ESP_STATIC_ASSERT(sizeof(Seat) == 28, "Seat size mismatch");
 
 // Seat configurations — mapping seat IDs to ADC channels and names
 static Seat seats[SEAT_COUNT] = {
