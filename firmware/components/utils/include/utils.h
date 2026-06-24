@@ -28,11 +28,11 @@ extern "C" {
 
 /** Restart the ESP32 */
 #define RESTART(tag, delay)                                     \
-    do {                                                        \
-        ESP_LOGE(tag, "Restarting in %d seconds...", delay);    \
-        vTaskDelay((delay) * 1000 / portTICK_PERIOD_MS);        \
-        esp_restart();                                          \
-    } while (0)
+  do {                                                        \
+    ESP_LOGE(tag, "Restarting in %d seconds...", delay);    \
+    vTaskDelay((delay) * 1000 / portTICK_PERIOD_MS);        \
+    esp_restart();                                          \
+  } while (0)
 
 #ifdef __cplusplus
 }
