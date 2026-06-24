@@ -18,6 +18,6 @@ uint64_t get_epoch(void);
 
 bool time_is_synced(void);
 
-void get_timestamp(char* buffer, size_t buffer_size);
+void get_timestamp(char *buffer, size_t buffer_size);
 
 #endif
