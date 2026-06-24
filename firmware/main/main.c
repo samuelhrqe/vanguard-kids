@@ -24,7 +24,7 @@
 
 #include "adc_manager.h"
 
- // Memory task size
+// Memory task size
 #define MEMORY_TASK (2048 * 2)
 
 // ESP_LOG -> Needed to ESP_LOGI, ESP_LOGE, etc in Wokwi
@@ -75,23 +75,24 @@ typedef struct {
 	int adc_raw;
 	float voltage;
 	float weight_grams;
+	bool initialized;
 	bool occupied;
 	bool last_occupied;
 } Seat;
 
 // Seat configurations — mapping seat IDs to ADC channels and names
 static Seat seats[SEAT_COUNT] = {
-	{.id = SEAT_01, .name = "seat-01", .adc_channel = ADC_CHANNEL_6 /* GPIO34 */ },
-	{.id = SEAT_02, .name = "seat-02", .adc_channel = ADC_CHANNEL_7 /* GPIO35 */ },
-	{.id = SEAT_03, .name = "seat-03", .adc_channel = ADC_CHANNEL_4 /* GPIO32 */ },
-	{.id = SEAT_04, .name = "seat-04", .adc_channel = ADC_CHANNEL_5 /* GPIO33 */ },
+	{.id = SEAT_01, .name = "seat-01", .initialized = false, .adc_channel = ADC_CHANNEL_6 /* GPIO34 */ },
+	{.id = SEAT_02, .name = "seat-02", .initialized = false, .adc_channel = ADC_CHANNEL_7 /* GPIO35 */ },
+	{.id = SEAT_03, .name = "seat-03", .initialized = false, .adc_channel = ADC_CHANNEL_4 /* GPIO32 */ },
+	{.id = SEAT_04, .name = "seat-04", .initialized = false, .adc_channel = ADC_CHANNEL_5 /* GPIO33 */ },
 };
 
 static TaskHandle_t  xSeatsTaskHandle;
 static TaskHandle_t  xMQTTTaskHandle;
 static QueueHandle_t xSeatQueue;
 
-static void update_seat(Seat* seat);
+static bool update_seat(Seat* seat);
 static void vTaskSeats(void* pvParameters);
 static void vTaskMQTT(void* pvParameters);
 
@@ -123,23 +124,24 @@ void app_main(void) {
 		return;
 	}
 
-	xTaskCreate(vTaskSeats, "seats_task", MEMORY_TASK, NULL, 4, &xSeatsTaskHandle);
 	xTaskCreate(vTaskMQTT, "mqtt_task", MEMORY_TASK, NULL, 6, &xMQTTTaskHandle);
+	xTaskCreate(vTaskSeats, "seats_task", MEMORY_TASK, NULL, 4, &xSeatsTaskHandle);
 }
 
-static void update_seat(Seat* seat) {
+static bool update_seat(Seat* seat) {
 	int raw = 0;
 
 	esp_err_t err = adc_manager_read_raw(seat->adc_channel, &raw);
 	if (err != ESP_OK) {
 		ESP_LOGE(TAG, "Erro ao ler %s: %s", seat->name, esp_err_to_name(err));
-		return;
+		return false;
 	}
 
 	seat->adc_raw = raw;
 	seat->voltage = adc_manager_raw_to_voltage(raw);
 	seat->weight_grams = adc_manager_raw_to_grams(raw, MAX_WEIGHT_GRAMS);
 	seat->occupied = seat->weight_grams >= OCCUPIED_THRESHOLD_G;
+	return true;
 }
 
 static void vTaskSeats(void* pvParameters) {
@@ -151,36 +153,40 @@ static void vTaskSeats(void* pvParameters) {
 		ESP_LOGI(TAG, "-----------------------------------------------------");
 
 		for (int i = 0; i < SEAT_COUNT; i++) {
-			update_seat(&seats[i]);
+			Seat* seat = &seats[i];
+
+			if (!update_seat(seat)) {
+				continue;
+			}
 
 			ESP_LOGI(
 				TAG,
 				"%s | ADC=%d | V=%.2f | Peso=%.0f g | Ocupado=%s",
-				seats[i].name,
-				seats[i].adc_raw,
-				seats[i].voltage,
-				seats[i].weight_grams,
-				seats[i].occupied ? "SIM" : "NAO"
+				seat->name,
+				seat->adc_raw,
+				seat->voltage,
+				seat->weight_grams,
+				seat->occupied ? "SIM" : "NAO"
 			);
 
-			// If the state hasn't changed, skip sending to the queue
-			bool state_changed = (seats[i].occupied != seats[i].last_occupied);
+			bool should_publish = !seat->initialized || (seat->occupied != seat->last_occupied);
 
-			if (!state_changed) {
+			if (!should_publish) {
 				continue;
 			}
 
-			seats[i].last_occupied = seats[i].occupied;
+			seat->last_occupied = seat->occupied;
+			seat->initialized = true;
 
 			// Prepare the message to send to the queue
-			message.id = seats[i].id;
-			message.adc_raw = seats[i].adc_raw;
-			message.voltage = seats[i].voltage;
-			message.weight_grams = seats[i].weight_grams;
-			message.occupied = seats[i].occupied;
+			message.id = seat->id;
+			message.adc_raw = seat->adc_raw;
+			message.voltage = seat->voltage;
+			message.weight_grams = seat->weight_grams;
+			message.occupied = seat->occupied;
 			message.ts = get_epoch();
 
-			strncpy(message.name, seats[i].name, sizeof(message.name));
+			strncpy(message.name, seat->name, sizeof(message.name));
 			message.name[sizeof(message.name) - 1] = '\0';
 
 			if (xQueueSend(xSeatQueue, &message, pdMS_TO_TICKS(100)) != pdPASS) {
@@ -198,6 +204,7 @@ static void vTaskSeats(void* pvParameters) {
 static void vTaskMQTT(void* pvParameters) {
 	UNUSED(pvParameters);
 
+	bool first_run = true;
 	SeatMessage msg;
 	char topic[64];
 	char payload[256];
@@ -208,7 +215,10 @@ static void vTaskMQTT(void* pvParameters) {
 	while (1) {
 		TickType_t now = xTaskGetTickCount();
 
-		if ((now - last_heartbeat) >= pdMS_TO_TICKS(HEARTBEAT_INTERVAL_MS)) {
+		// Check if it's time to send a heartbeat message
+		bool heartbeat_due = (now - last_heartbeat) >= pdMS_TO_TICKS(HEARTBEAT_INTERVAL_MS);
+
+		if (heartbeat_due || first_run) {
 			if (mqtt_is_connected()) {
 				int64_t ts = get_epoch();
 
@@ -221,6 +231,11 @@ static void vTaskMQTT(void* pvParameters) {
 
 				mqtt_publish(MQTT_TOPIC_HEARTBEAT, payload);
 				ESP_LOGI(TAG, "Heartbeat publicado");
+
+				first_run = false;
+
+			} else {
+				ESP_LOGW(TAG, "Heartbeat pendente. MQTT offline");
 			}
 
 			last_heartbeat = now;
@@ -264,10 +279,10 @@ static void vTaskMQTT(void* pvParameters) {
 		}
 		else {
 			// MQTT offline — re-enqueue the message for retry
-			ESP_LOGW(TAG, "MQTT offline — re-enfileirando: %s", msg.name);
+			ESP_LOGW(TAG, "MQTT offline. Re-enfileirando: %s", msg.name);
 
 			if (xQueueSendToFront(xSeatQueue, &msg, 0) != pdPASS) {
-				ESP_LOGE(TAG, "Fila cheia — mensagem perdida: %s", msg.name);
+				ESP_LOGE(TAG, "Fila cheia. Mensagem perdida: %s", msg.name);
 			}
 
 			vTaskDelay(pdMS_TO_TICKS(MQTT_RETRY_DELAY_MS));
