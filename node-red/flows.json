@@ -1,0 +1,713 @@
+[
+    {
+        "id": "e36b668a12db8bb5",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c027059c13cac823",
+        "type": "mqtt-broker",
+        "name": "Mosquitto",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "25a105596d9fada6",
+        "type": "ui-base",
+        "name": "VanguardKids",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "dashboard",
+        "navigationStyle": "icon",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": "1",
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "92e7e2b04d94e02b",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "31874df65fa676bc",
+        "type": "ui-page",
+        "name": "Seats",
+        "ui": "25a105596d9fada6",
+        "path": "/seats",
+        "icon": "seat-passenger",
+        "layout": "grid",
+        "theme": "aaf608b9cd2bdab0",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "d8f095af7c24e4e0",
+        "type": "ui-group",
+        "name": "Histórico dos Assentos ",
+        "page": "83d1c78ab8d6b73c",
+        "width": "12",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "history-container",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "4342aa2013cfee5e",
+        "type": "ui-page",
+        "name": "Hearbeat",
+        "ui": "25a105596d9fada6",
+        "path": "/heartbeat",
+        "icon": "heart-pulse",
+        "layout": "grid",
+        "theme": "aaf608b9cd2bdab0",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 2,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "83d1c78ab8d6b73c",
+        "type": "ui-page",
+        "name": "History",
+        "ui": "25a105596d9fada6",
+        "path": "/history",
+        "icon": "database",
+        "layout": "grid",
+        "theme": "aaf608b9cd2bdab0",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 3,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "aaf608b9cd2bdab0",
+        "type": "ui-theme",
+        "name": "Verde",
+        "colors": {
+            "surface": "#155e63",
+            "primary": "#23877c",
+            "bgPage": "#e9edef",
+            "groupBg": "#f5f7f7",
+            "groupOutline": "#c6d0d2"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "35d0dc14adfc5a26",
+        "type": "mqtt in",
+        "z": "e36b668a12db8bb5",
+        "name": "",
+        "topic": "vanguard-kids/seats/+",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c027059c13cac823",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 120,
+        "wires": [
+            [
+                "1b9c80a41279eb22"
+            ]
+        ]
+    },
+    {
+        "id": "1e3f565339391307",
+        "type": "mqtt in",
+        "z": "e36b668a12db8bb5",
+        "name": "",
+        "topic": "vanguard-kids/heartbeat",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c027059c13cac823",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 340,
+        "wires": [
+            [
+                "26867e5f464b28a7"
+            ]
+        ]
+    },
+    {
+        "id": "6fbfe324298eb5a2",
+        "type": "ui-chart",
+        "z": "e36b668a12db8bb5",
+        "group": "d8f095af7c24e4e0",
+        "name": "Ocupação dos assentos",
+        "label": "",
+        "order": 1,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "Hora",
+        "xAxisProperty": "payload.ts_ms",
+        "xAxisPropertyType": "msg",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "Ocupação",
+        "yAxisProperty": "payload.occupied",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "1",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "12",
+        "height": "7",
+        "className": "history-card history-chart",
+        "interpolation": "linear",
+        "x": 870,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1b9c80a41279eb22",
+        "type": "json",
+        "z": "e36b668a12db8bb5",
+        "name": "JSON Analyzer",
+        "property": "payload",
+        "action": "str",
+        "pretty": true,
+        "x": 400,
+        "y": 120,
+        "wires": [
+            [
+                "7505c632b2bd7e6f"
+            ]
+        ]
+    },
+    {
+        "id": "7505c632b2bd7e6f",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "name": "Normalize Seat Message",
+        "func": "let data = msg.payload;\n\n// Proteção caso a mensagem ainda esteja como string\nif (typeof data === \"string\") {\n    try {\n        data = JSON.parse(data);\n    } catch (error) {\n        node.error(\"Invalid JSON received\", msg);\n        return null;\n    }\n}\n\nif (\n    !data.client_id ||\n    !data.seat ||\n    data.ts === undefined ||\n    data.weight_g === undefined ||\n    data.occupied === undefined\n) {\n    node.warn(\"Incomplete seat message\");\n    return null;\n}\n\nconst epoch = Number(data.ts);\n\nif (!Number.isFinite(epoch) || epoch <= 0) {\n    node.warn(\"Invalid epoch timestamp\");\n    return null;\n}\n\n/*\n * ESP32 envia epoch em segundos.\n * JavaScript Date e ui-chart trabalham melhor com milissegundos.\n */\nconst epochMs = epoch < 1000000000000\n    ? epoch * 1000\n    : epoch;\n\nconst date = new Date(epochMs);\n\nif (Number.isNaN(date.getTime())) {\n    node.warn(\"Invalid date\");\n    return null;\n}\n\nconst brazilFormatter = new Intl.DateTimeFormat(\"pt-BR\", {\n    timeZone: \"America/Sao_Paulo\",\n    year: \"numeric\",\n    month: \"2-digit\",\n    day: \"2-digit\",\n    hour: \"2-digit\",\n    minute: \"2-digit\",\n    second: \"2-digit\",\n    hour12: false\n});\n\ndata.ts_seconds = Math.floor(epochMs / 1000);\ndata.ts_ms = epochMs;\ndata.datetime_brt = brazilFormatter.format(date);\n\n// Campos úteis para nós posteriores\nmsg.payload = data;\nmsg.timestamp = epochMs;\nmsg.seat = data.seat;\nmsg.topic = data.seat;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 120,
+        "wires": [
+            [
+                "6fbfe324298eb5a2",
+                "5b522b2a60e2d03a",
+                "5ee367f76d046d14",
+                "c0192d14c6ab4167"
+            ]
+        ]
+    },
+    {
+        "id": "5b522b2a60e2d03a",
+        "type": "debug",
+        "z": "e36b668a12db8bb5",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "5ee367f76d046d14",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "name": "Store Unique History",
+        "func": "const data = msg.payload;\n\nif (\n    !data ||\n    !data.client_id ||\n    !data.seat ||\n    data.ts === undefined\n) {\n    node.warn(\"Invalid seat message\");\n    return null;\n}\n\n/*\n * Identificador da leitura.\n *\n * Incluímos todos os valores principais porque duas leituras\n * diferentes podem, em alguns casos, possuir o mesmo timestamp\n * em segundos.\n */\nconst eventKey = [\n    String(data.client_id),\n    String(data.seat),\n    String(data.ts),\n    String(data.adc_raw),\n    Number(data.voltage).toFixed(3),\n    Number(data.weight_g).toFixed(0),\n    data.occupied ? \"1\" : \"0\"\n].join(\"|\");\n\nlet history = flow.get(\"seatHistory\") || [];\nlet registeredEvents = flow.get(\"registeredSeatEvents\") || {};\n\n/*\n * A mensagem já foi processada.\n * Não envia nada para a tabela.\n */\nif (registeredEvents[eventKey]) {\n    node.warn(`Duplicate seat message ignored: ${eventKey}`);\n    return null;\n}\n\nconst epoch = Number(data.ts);\n\nconst epochMs = data.ts_ms !== undefined\n    ? Number(data.ts_ms)\n    : epoch * 1000;\n\nconst date = new Date(epochMs);\n\nconst formattedDate = data.datetime_brt ||\n    new Intl.DateTimeFormat(\"pt-BR\", {\n        timeZone: \"America/Sao_Paulo\",\n        day: \"2-digit\",\n        month: \"2-digit\",\n        year: \"numeric\",\n        hour: \"2-digit\",\n        minute: \"2-digit\",\n        second: \"2-digit\",\n        hour12: false\n    }).format(date);\n\nconst historyItem = {\n    event_id: eventKey,\n    client_id: String(data.client_id),\n    seat: String(data.seat),\n    status: data.occupied ? \"OCCUPIED\" : \"AVAILABLE\",\n    adc_raw: Number(data.adc_raw),\n    voltage: Number(data.voltage),\n    weight_g: Math.round(Number(data.weight_g)),\n    occupied: Boolean(data.occupied),\n    ts: epoch,\n    date_time: formattedDate\n};\n\nhistory.push(historyItem);\nregisteredEvents[eventKey] = true;\n\n/*\n * Mais recente primeiro.\n */\nhistory.sort((a, b) => b.ts - a.ts);\n\nflow.set(\"seatHistory\", history);\nflow.set(\"registeredSeatEvents\", registeredEvents);\n\n/*\n * Envia sempre o histórico completo como array.\n * Assim, a tabela substitui seu conteúdo, em vez de acrescentar\n * novamente registros que já estavam nela.\n */\nmsg.payload = history;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 160,
+        "wires": [
+            [
+                "4e9f6f7ccabab5a1"
+            ]
+        ]
+    },
+    {
+        "id": "3d2cb9defdf67083",
+        "type": "ui-table",
+        "z": "e36b668a12db8bb5",
+        "group": "d8f095af7c24e4e0",
+        "name": "Tabela de dados",
+        "label": "",
+        "order": 2,
+        "width": "0",
+        "height": "0",
+        "maxrows": "8",
+        "passthru": false,
+        "autocols": false,
+        "showSearch": true,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [
+            {
+                "title": "Client ID",
+                "key": "client_id",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Seat ID",
+                "key": "seat",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Status",
+                "key": "status",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "ADC Raw",
+                "key": "adc_raw",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Voltage (v)",
+                "key": "voltage",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Weight (g)",
+                "key": "weight_g",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Occupied",
+                "key": "occupied",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Timestamp (epochs)",
+                "key": "ts",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Date and Time",
+                "key": "date_time",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            }
+        ],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "history-table-card",
+        "x": 1280,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "26867e5f464b28a7",
+        "type": "json",
+        "z": "e36b668a12db8bb5",
+        "name": "JSON Analyzer",
+        "property": "payload",
+        "action": "str",
+        "pretty": true,
+        "x": 420,
+        "y": 340,
+        "wires": [
+            [
+                "d7c9e754e5e11f9c"
+            ]
+        ]
+    },
+    {
+        "id": "d7c9e754e5e11f9c",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "name": "Normalize Heartbeat",
+        "func": "let data = msg.payload;\n\n// Proteção caso a mensagem ainda esteja como string\nif (typeof data === \"string\") {\n    try {\n        data = JSON.parse(data);\n    } catch (error) {\n        node.error(\"Invalid JSON received\", msg);\n        return null;\n    }\n}\n\nif (\n    !data ||\n    !data.client_id ||\n    data.ts === undefined ||\n    data.seats === undefined\n) {\n    node.warn(\"Invalid heartbeat message\");\n    return null;\n}\n\nconst epoch = Number(data.ts);\n\nif (!Number.isFinite(epoch) || epoch <= 0) {\n    node.warn(\"Invalid heartbeat timestamp\");\n    return null;\n}\n\n// ESP32 envia epoch em segundos.\n// JavaScript Date trabalha com milissegundos.\nconst epochMs = epoch < 1000000000000\n    ? epoch * 1000\n    : epoch;\n\nconst date = new Date(epochMs);\n\nconst formattedDate = new Intl.DateTimeFormat(\"pt-BR\", {\n    timeZone: \"America/Sao_Paulo\",\n    day: \"2-digit\",\n    month: \"2-digit\",\n    year: \"numeric\",\n    hour: \"2-digit\",\n    minute: \"2-digit\",\n    second: \"2-digit\",\n    hour12: false\n}).format(date);\n\nmsg.payload = {\n    online: true,\n    status: \"ONLINE\",\n    client_id: data.client_id,\n    seats: Number(data.seats),\n    ts: epoch,\n    ts_ms: epochMs,\n    last_seen: formattedDate\n};\n\nflow.set(\"lastHeartbeat\", msg.payload);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 340,
+        "wires": [
+            [
+                "e739b4036a57fe16",
+                "584f188affeb120a"
+            ]
+        ]
+    },
+    {
+        "id": "e739b4036a57fe16",
+        "type": "trigger",
+        "z": "e36b668a12db8bb5",
+        "name": "Check Heartbeat",
+        "op1": "",
+        "op2": "OFFLINE",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "40",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "topic",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 830,
+        "y": 380,
+        "wires": [
+            [
+                "584f188affeb120a"
+            ]
+        ]
+    },
+    {
+        "id": "97badfebe57536e3",
+        "type": "ui-template",
+        "z": "e36b668a12db8bb5",
+        "group": "",
+        "page": "4342aa2013cfee5e",
+        "ui": "",
+        "name": "Hearbeat Card",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "head": "",
+        "format": "<template>\n    <div\n        class=\"heartbeat-card\"\n        :class=\"\n            !msg || !msg.payload\n                ? 'waiting'\n                : msg.payload.online\n                    ? 'online'\n                    : 'offline'\n        \"\n    >\n        <div class=\"card-header\">\n            <div>\n                <div class=\"card-title\">ESP32 Status</div>\n                <div class=\"card-subtitle\">\n                    MQTT heartbeat monitoring\n                </div>\n            </div>\n\n            <div\n                class=\"status-badge\"\n                :class=\"\n                    !msg || !msg.payload\n                        ? 'waiting-badge'\n                        : msg.payload.online\n                            ? 'online-badge'\n                            : 'offline-badge'\n                \"\n            >\n                <span class=\"status-dot\"></span>\n\n                {{\n                    !msg || !msg.payload\n                        ? \"WAITING\"\n                        : msg.payload.status\n                }}\n            </div>\n        </div>\n\n        <div class=\"card-content\">\n            <div class=\"information-row\">\n                <span class=\"label\">Client ID</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.client_id\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Configured seats</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.seats\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Last heartbeat</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.last_seen\n                            : \"Waiting for heartbeat\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Epoch timestamp</span>\n                <span class=\"value timestamp\">\n                    {{\n                        msg && msg.payload && msg.payload.ts\n                            ? msg.payload.ts\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n        </div>\n\n        <div\n            v-if=\"msg && msg.payload && !msg.payload.online\"\n            class=\"offline-warning\"\n        >\n            No heartbeat has been received within the expected interval.\n        </div>\n    </div>\n</template>\n\n<style scoped>\n.heartbeat-card {\n    width: calc(100% - 32px);;\n    max-width: 900px;\n    min-height: 210px;\n    margin: 24px auto;\n    padding: 20px;\n    border: 1px solid;\n    border-radius: 14px;\n    box-sizing: border-box;\n    transition: border-color 0.3s ease,\n                background-color 0.3s ease;\n}\n\n.heartbeat-card.online {\n    border-color: #2e7d32;\n    background-color: rgba(46, 125, 50, 0.08);\n}\n\n.heartbeat-card.offline {\n    border-color: #c62828;\n    background-color: rgba(198, 40, 40, 0.08);\n}\n\n.heartbeat-card.waiting {\n    border-color: #757575;\n    background-color: rgba(117, 117, 117, 0.08);\n}\n\n.card-header {\n    display: flex;\n    align-items: flex-start;\n    justify-content: space-between;\n    gap: 16px;\n    margin-bottom: 20px;\n}\n\n.card-title {\n    font-size: 1.25rem;\n    font-weight: 700;\n}\n\n.card-subtitle {\n    margin-top: 3px;\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.status-badge {\n    display: flex;\n    align-items: center;\n    gap: 7px;\n    padding: 7px 11px;\n    border-radius: 20px;\n    font-size: 0.75rem;\n    font-weight: 700;\n}\n\n.online-badge {\n    color: #1b5e20;\n    background-color: rgba(76, 175, 80, 0.2);\n}\n\n.offline-badge {\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.2);\n}\n\n.waiting-badge {\n    color: #424242;\n    background-color: rgba(158, 158, 158, 0.2);\n}\n\n.status-dot {\n    width: 9px;\n    height: 9px;\n    border-radius: 50%;\n    background-color: currentColor;\n}\n\n.information-row {\n    display: flex;\n    justify-content: space-between;\n    gap: 16px;\n    padding: 8px 0;\n    border-bottom: 1px solid rgba(128, 128, 128, 0.2);\n}\n\n.information-row:last-child {\n    border-bottom: none;\n}\n\n.label {\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.value {\n    font-weight: 600;\n    text-align: right;\n}\n\n.timestamp {\n    font-family: monospace;\n}\n\n.offline-warning {\n    margin-top: 16px;\n    padding: 10px;\n    border-radius: 8px;\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.12);\n    font-size: 0.85rem;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "widget:page",
+        "className": "",
+        "x": 1280,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "584f188affeb120a",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "name": "Prepare Heartbeat card",
+        "func": "const lastHeartbeat = flow.get(\"lastHeartbeat\") || {\n    client_id: \"Unknown\",\n    seats: 0,\n    ts: null,\n    ts_ms: null,\n    last_seen: \"No heartbeat received\"\n};\n\n// Timeout gerado pelo Trigger\nif (msg.payload === \"OFFLINE\") {\n    msg.payload = {\n        ...lastHeartbeat,\n        online: false,\n        status: \"OFFLINE\"\n    };\n\n    return msg;\n}\n\n// Heartbeat normal\nif (\n    typeof msg.payload === \"object\" &&\n    msg.payload !== null\n) {\n    msg.payload = {\n        ...msg.payload,\n        online: true,\n        status: \"ONLINE\"\n    };\n\n    flow.set(\"lastHeartbeat\", msg.payload);\n\n    return msg;\n}\n\nnode.warn(`Unexpected payload: ${msg.payload}`);\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1050,
+        "y": 340,
+        "wires": [
+            [
+                "97badfebe57536e3",
+                "283d70aaf56a09fc"
+            ]
+        ]
+    },
+    {
+        "id": "283d70aaf56a09fc",
+        "type": "debug",
+        "z": "e36b668a12db8bb5",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "4e9f6f7ccabab5a1",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "name": "Format History Table",
+        "func": "if (!Array.isArray(msg.payload)) {\n    node.warn(\"History payload must be an array\");\n    return null;\n}\n\nmsg.payload = msg.payload.map(item => ({\n    client_id: item.client_id,\n    seat: item.seat,\n    status: item.status,\n    adc_raw: Number(item.adc_raw),\n    voltage: Number(Number(item.voltage).toFixed(2)),\n    weight_g: Math.round(Number(item.weight_g)),\n    occupied: Boolean(item.occupied),\n    ts: Number(item.ts),\n    date_time: item.date_time\n}));\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 160,
+        "wires": [
+            [
+                "3d2cb9defdf67083"
+            ]
+        ]
+    },
+    {
+        "id": "c0192d14c6ab4167",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "name": "Update Current Seat Map",
+        "func": "const SEAT_IDS = [\n    \"seat-01\",\n    \"seat-02\",\n    \"seat-03\",\n    \"seat-04\"\n];\n\nconst data = msg.payload;\n\nif (!data || typeof data !== \"object\" || !data.seat) {\n    node.warn(\"Invalid seat message\");\n    return null;\n}\n\nif (!SEAT_IDS.includes(data.seat)) {\n    node.warn(`Unknown seat: ${data.seat}`);\n    return null;\n}\n\nlet currentSeats = flow.get(\"currentSeatMap\") || {};\n\n/*\n * Inicializa os quatro assentos para que todos apareçam\n * antes mesmo da primeira mensagem de cada sensor.\n */\nfor (const seatId of SEAT_IDS) {\n    if (!currentSeats[seatId]) {\n        currentSeats[seatId] = {\n            client_id: null,\n            seat: seatId,\n            received: false,\n            adc_raw: 0,\n            voltage: 0,\n            weight_g: 0,\n            occupied: false,\n            ts: null,\n            ts_seconds: null,\n            ts_ms: null,\n            datetime_brt: \"Waiting for data\"\n        };\n    }\n}\n\n/*\n * Atualiza somente o assento informado pela mensagem.\n * Os demais mantêm o último estado recebido.\n */\ncurrentSeats[data.seat] = {\n    client_id: String(data.client_id),\n    seat: String(data.seat),\n    received: true,\n    adc_raw: Number(data.adc_raw),\n    voltage: Number(data.voltage),\n    weight_g: Number(data.weight_g),\n    occupied: Boolean(data.occupied),\n    ts: Number(data.ts),\n    ts_seconds: Number(data.ts_seconds),\n    ts_ms: Number(data.ts_ms),\n    datetime_brt: String(data.datetime_brt)\n};\n\nflow.set(\"currentSeatMap\", currentSeats);\n\nconst seats = SEAT_IDS.map(seatId => {\n    const seat = currentSeats[seatId];\n\n    return {\n        ...seat,\n        status: !seat.received\n            ? \"WAITING\"\n            : seat.occupied\n                ? \"OCCUPIED\"\n                : \"AVAILABLE\"\n    };\n});\n\nmsg.payload = {\n    client_id: data.client_id,\n    seats,\n    occupied: seats.filter(\n        seat => seat.received && seat.occupied\n    ).length,\n    available: seats.filter(\n        seat => seat.received && !seat.occupied\n    ).length,\n    waiting: seats.filter(\n        seat => !seat.received\n    ).length,\n    total: SEAT_IDS.length\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 200,
+        "wires": [
+            [
+                "ed594a5b7f2d83c0"
+            ]
+        ]
+    },
+    {
+        "id": "ed594a5b7f2d83c0",
+        "type": "ui-template",
+        "z": "e36b668a12db8bb5",
+        "group": "",
+        "page": "31874df65fa676bc",
+        "ui": "",
+        "name": "Seats Map",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n    <div class=\"seat-dashboard\">\n\n        <!-- Dados já recebidos -->\n        <div v-if=\"msg && msg.payload\">\n            <div class=\"summary\">\n                <div class=\"summary-card\">\n                    <span class=\"summary-value\">\n                        {{ msg.payload.occupied }}\n                    </span>\n                    <span class=\"summary-label\">Occupied</span>\n                </div>\n\n                <div class=\"summary-card\">\n                    <span class=\"summary-value\">\n                        {{ msg.payload.available }}\n                    </span>\n                    <span class=\"summary-label\">Available</span>\n                </div>\n\n                <div class=\"summary-card\">\n                    <span class=\"summary-value\">\n                        {{ msg.payload.waiting }}\n                    </span>\n                    <span class=\"summary-label\">Waiting</span>\n                </div>\n\n                <div class=\"summary-card\">\n                    <span class=\"summary-value\">\n                        {{ msg.payload.total }}\n                    </span>\n                    <span class=\"summary-label\">Total</span>\n                </div>\n            </div>\n\n            <div class=\"vehicle\">\n                <div class=\"vehicle-header\">\n                    <div class=\"vehicle-title\">Current Seat Map</div>\n\n                    <div class=\"vehicle-client\">\n                        Client:\n                        <strong>\n                            {{ msg.payload.client_id || \"Unknown\" }}\n                        </strong>\n                    </div>\n                </div>\n\n                <div class=\"vehicle-front\">\n                    VEHICLE FRONT\n                </div>\n\n                <div class=\"seat-grid\">\n                    <div v-for=\"seat in msg.payload.seats\" :key=\"seat.seat\" class=\"seat-card\" :class=\"{\n                            occupied: seat.status === 'OCCUPIED',\n                            available: seat.status === 'AVAILABLE',\n                            waiting: seat.status === 'WAITING'\n                        }\">\n                        <div class=\"seat-header\">\n                            <span class=\"seat-name\">\n                                {{ seat.seat.toUpperCase() }}\n                            </span>\n\n                            <span\n                                class=\"status-badge\"\n                                :class=\"seat.status.toLowerCase()\"\n                            >\n                                {{ seat.status }}\n                            </span>\n                        </div>\n\n                        <div class=\"seat-indicator\">\n                            <span v-if=\"seat.status === 'OCCUPIED'\">●</span>\n                            <span v-else-if=\"seat.status === 'AVAILABLE'\">○</span>\n                            <span v-else>—</span>\n                        </div>\n\n                        <div v-if=\"seat.received\" class=\"seat-data\">\n                            <div class=\"data-row\">\n                                <span>Weight</span>\n                                <strong>\n                                    {{ Math.round(seat.weight_g) }} g\n                                </strong>\n                            </div>\n\n                            <div class=\"data-row\">\n                                <span>Voltage</span>\n                                <strong>\n                                    {{ Number(seat.voltage).toFixed(2) }} V\n                                </strong>\n                            </div>\n\n                            <div class=\"data-row\">\n                                <span>ADC Raw</span>\n                                <strong>{{ seat.adc_raw }}</strong>\n                            </div>\n\n                            <div class=\"data-row\">\n                                <span>Last change</span>\n                                <strong>{{ seat.datetime_brt }}</strong>\n                            </div>\n                        </div>\n\n                        <div v-else class=\"waiting-message\">\n                            Waiting for the first seat event\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <!-- Nenhuma mensagem recebida ainda -->\n        <div v-else>\n            <div class=\"summary\">\n                <div class=\"summary-card\">\n                    <span class=\"summary-value\">0</span>\n                    <span class=\"summary-label\">Occupied</span>\n                </div>\n\n                <div class=\"summary-card\">\n                    <span class=\"summary-value\">0</span>\n                    <span class=\"summary-label\">Available</span>\n                </div>\n\n                <div class=\"summary-card\">\n                    <span class=\"summary-value\">4</span>\n                    <span class=\"summary-label\">Waiting</span>\n                </div>\n\n                <div class=\"summary-card\">\n                    <span class=\"summary-value\">4</span>\n                    <span class=\"summary-label\">Total</span>\n                </div>\n            </div>\n\n            <div class=\"vehicle\">\n                <div class=\"vehicle-header\">\n                    <div class=\"vehicle-title\">Current Seat Map</div>\n\n                    <div class=\"vehicle-client\">\n                        Client: <strong>Unknown</strong>\n                    </div>\n                </div>\n\n                <div class=\"vehicle-front\">\n                    VEHICLE FRONT\n                </div>\n\n                <div class=\"seat-grid\">\n                    <div v-for=\"seatId in [\n                            'seat-01',\n                            'seat-02',\n                            'seat-03',\n                            'seat-04'\n                        ]\" :key=\"seatId\" class=\"seat-card waiting\">\n                        <div class=\"seat-header\">\n                            <span class=\"seat-name\">\n                                {{ seatId.toUpperCase() }}\n                            </span>\n\n                            <span class=\"status-badge waiting\">\n                                WAITING\n                            </span>\n                        </div>\n\n                        <div class=\"seat-indicator\">\n                            —\n                        </div>\n\n                        <div class=\"waiting-message\">\n                            Waiting for the first seat event\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n    </div>\n</template>\n\n<style scoped>\n.seat-dashboard {\n    width: 100%;\n    max-width: 1200px;\n    margin: 0 auto;\n    padding: 24px 32px;\n    box-sizing: border-box;\n}\n\n.summary {\n    display: grid;\n    grid-template-columns: repeat(4, minmax(0, 1fr));\n    gap: 10px;\n    margin-bottom: 16px;\n}\n\n.summary-card {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    padding: 12px;\n    border: 1px solid rgba(128, 128, 128, 0.25);\n    border-radius: 10px;\n    background: rgba(128, 128, 128, 0.06);\n}\n\n.summary-value {\n    font-size: 1.6rem;\n    font-weight: 700;\n}\n\n.summary-label {\n    margin-top: 3px;\n    font-size: 0.75rem;\n    opacity: 0.7;\n}\n\n.vehicle {\n    padding: 16px;\n    border: 2px solid rgba(128, 128, 128, 0.3);\n    border-radius: 18px;\n}\n\n.vehicle-header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    gap: 12px;\n    margin-bottom: 12px;\n}\n\n.vehicle-title {\n    font-size: 1.1rem;\n    font-weight: 700;\n}\n\n.vehicle-client {\n    font-size: 0.8rem;\n    opacity: 0.75;\n}\n\n.vehicle-front {\n    margin-bottom: 14px;\n    padding: 8px;\n    border-radius: 8px;\n    text-align: center;\n    font-size: 0.72rem;\n    font-weight: 700;\n    letter-spacing: 0.12rem;\n    background: rgba(128, 128, 128, 0.12);\n}\n\n.seat-grid {\n    display: grid;\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n    gap: 14px;\n}\n\n.seat-card {\n    min-height: 225px;\n    padding: 16px;\n    border: 2px solid;\n    border-radius: 14px;\n    box-sizing: border-box;\n}\n\n.seat-card.occupied {\n    border-color: #c62828;\n    background: rgba(198, 40, 40, 0.09);\n}\n\n.seat-card.available {\n    border-color: #2e7d32;\n    background: rgba(46, 125, 50, 0.09);\n}\n\n.seat-card.waiting {\n    border-color: #757575;\n    background: rgba(117, 117, 117, 0.08);\n}\n\n.seat-header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    gap: 10px;\n}\n\n.seat-name {\n    font-weight: 700;\n}\n\n.status-badge {\n    padding: 5px 8px;\n    border-radius: 14px;\n    font-size: 0.65rem;\n    font-weight: 700;\n}\n\n.status-badge.occupied {\n    color: #b71c1c;\n    background: rgba(244, 67, 54, 0.18);\n}\n\n.status-badge.available {\n    color: #1b5e20;\n    background: rgba(76, 175, 80, 0.18);\n}\n\n.status-badge.waiting {\n    color: #424242;\n    background: rgba(158, 158, 158, 0.2);\n}\n\n.seat-indicator {\n    margin: 14px 0;\n    text-align: center;\n    font-size: 2.8rem;\n}\n\n.data-row {\n    display: flex;\n    justify-content: space-between;\n    gap: 12px;\n    padding: 6px 0;\n    border-bottom: 1px solid rgba(128, 128, 128, 0.18);\n    font-size: 0.78rem;\n}\n\n.data-row:last-child {\n    border-bottom: none;\n}\n\n.data-row span {\n    opacity: 0.7;\n}\n\n.data-row strong {\n    text-align: right;\n}\n\n.waiting-message,\n.loading-message {\n    padding: 22px;\n    text-align: center;\n    opacity: 0.65;\n}\n\n@media (max-width: 700px) {\n    .summary {\n        grid-template-columns: repeat(2, 1fr);\n    }\n\n    .seat-grid {\n        grid-template-columns: 1fr;\n    }\n\n    .vehicle-header {\n        align-items: flex-start;\n        flex-direction: column;\n    }\n\n    .seat-dashboard {\n        padding: 16px;\n    }\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "widget:page",
+        "className": "",
+        "x": 1070,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "611b8806ab9ee9ee",
+        "type": "ui-template",
+        "z": "e36b668a12db8bb5",
+        "group": "",
+        "page": "83d1c78ab8d6b73c",
+        "ui": "",
+        "name": "Table and Chart Styles",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "/* =========================================================\n   CORES COMPARTILHADAS\n   ========================================================= */\n\n.nrdb-ui-group.history-container {\n    --history-card-bg: rgba(255, 255, 255, 0.35);\n    --history-border: rgba(128, 128, 128, 0.30);\n    --history-divider: rgba(128, 128, 128, 0.20);\n    --history-hover: rgba(128, 128, 128, 0.08);\n\n    grid-column: 1 / -1 !important;\n\n    width: min(85vw, 1350px) !important;\n    max-width: none !important;\n\n    margin: 20px auto !important;\n    justify-self: center !important;\n\n    box-sizing: border-box;\n}\n\n/* Remove o fundo externo do grupo */\n.nrdb-ui-group.history-container > .v-card {\n    background: transparent !important;\n    border: none !important;\n    box-shadow: none !important;\n}\n\n/* =========================================================\n   CARD BASE: GRÁFICO E TABELA\n   ========================================================= */\n\n.history-card,\n.history-table-card {\n    width: 100% !important;\n    margin: 0 0 18px 0 !important;\n\n    background-color: var(--history-card-bg) !important;\n\n    border: 1px solid var(--history-border) !important;\n    border-radius: 14px !important;\n\n    box-sizing: border-box !important;\n    overflow: hidden !important;\n\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;\n\n    transition:\n        border-color 0.25s ease,\n        box-shadow 0.25s ease;\n}\n\n/* =========================================================\n   GRÁFICO\n   ========================================================= */\n\n.history-chart {\n    min-height: 330px;\n    padding: 14px !important;\n}\n\n/* =========================================================\n   TABELA: CONTÊINERES INTERNOS\n   Todos transparentes para exibir o fundo do card\n   ========================================================= */\n\n.history-table-card > .v-card,\n.history-table-card .v-card,\n.history-table-card .v-data-table,\n.history-table-card .v-table,\n.history-table-card .v-table__wrapper,\n.history-table-card .v-data-table__wrapper {\n    width: 100% !important;\n\n    color: rgb(var(--v-theme-on-background)) !important;\n    background: transparent !important;\n\n    border: none !important;\n    box-shadow: none !important;\n}\n\n.history-table-card .v-table__wrapper,\n.history-table-card .v-data-table__wrapper {\n    overflow-x: auto;\n}\n\n/* =========================================================\n   PESQUISA\n   ========================================================= */\n\n.history-table-card .v-input,\n.history-table-card .v-input__control,\n.history-table-card .v-field,\n.history-table-card .v-field__field,\n.history-table-card .v-field__input,\n.history-table-card .v-field__outline,\n.history-table-card .v-field__loader {\n    color: inherit !important;\n    background: transparent !important;\n}\n\n.history-table-card .v-field__overlay {\n    background: transparent !important;\n    opacity: 0 !important;\n}\n\n.history-table-card .v-field {\n    border-bottom: 1px solid var(--history-divider) !important;\n    box-shadow: none !important;\n}\n\n.history-table-card .v-input:first-child .v-field {\n    border-top-left-radius: 14px !important;\n    border-top-right-radius: 14px !important;\n}\n\n/* =========================================================\n   CABEÇALHO\n   ========================================================= */\n\n.history-table-card thead,\n.history-table-card thead tr,\n.history-table-card thead th {\n    color: inherit !important;\n    background: transparent !important;\n}\n\n.history-table-card thead th {\n    font-weight: 700 !important;\n    border-bottom: 1px solid var(--history-border) !important;\n}\n\n/* =========================================================\n   CORPO DA TABELA\n   ========================================================= */\n\n.history-table-card tbody,\n.history-table-card tbody tr,\n.history-table-card tbody td {\n    color: inherit !important;\n    background: transparent !important;\n}\n\n.history-table-card tbody td {\n    border-bottom: 1px solid var(--history-divider) !important;\n    transition: background-color 0.2s ease;\n}\n\n/* Hover discreto, sem alterar permanentemente o fundo */\n.history-table-card tbody tr:hover,\n.history-table-card tbody tr:hover td {\n    background-color: var(--history-hover) !important;\n}\n\n.history-table-card tbody tr:last-child td {\n    border-bottom: none !important;\n}\n\n/* =========================================================\n   RODAPÉ E PAGINAÇÃO\n   ========================================================= */\n\n.history-table-card .v-data-table-footer,\n.history-table-card .v-data-table-footer *,\n.history-table-card .v-data-table-footer .v-input,\n.history-table-card .v-data-table-footer .v-field,\n.history-table-card .v-data-table-footer .v-field__field,\n.history-table-card .v-data-table-footer .v-field__input {\n    color: inherit !important;\n    background: transparent !important;\n}\n\n.history-table-card .v-data-table-footer {\n    border-top: 1px solid var(--history-divider) !important;\n}\n\n.history-table-card .v-data-table-footer .v-field__overlay {\n    background: transparent !important;\n    opacity: 0 !important;\n}\n\n.history-table-card button,\n.history-table-card .v-btn {\n    color: inherit !important;\n    background: transparent !important;\n}\n\n/* =========================================================\n   INTERAÇÃO\n   ========================================================= */\n\n.history-card:hover,\n.history-table-card:hover {\n    border-color: rgba(128, 128, 128, 0.45) !important;\n    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;\n}\n\n/* =========================================================\n   RESPONSIVIDADE\n   ========================================================= */\n\n@media (max-width: 900px) {\n    .nrdb-ui-group.history-container {\n        width: calc(100% - 24px) !important;\n        margin: 12px auto !important;\n    }\n\n    .history-table-card {\n        margin-bottom: 12px !important;\n        border-radius: 10px !important;\n    }\n\n    .history-table-card .v-input:first-child .v-field {\n        border-top-left-radius: 10px !important;\n        border-top-right-radius: 10px !important;\n    }\n}",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "page:style",
+        "className": "",
+        "x": 860,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    }
+]
