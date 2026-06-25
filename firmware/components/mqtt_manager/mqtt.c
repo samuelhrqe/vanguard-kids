@@ -16,7 +16,7 @@ static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event) {
     case MQTT_EVENT_DISCONNECTED:
       xEventGroupSetBits(mqtt_event_group, MQTT_DISCONNECTED_BIT);
       xEventGroupClearBits(mqtt_event_group, MQTT_CONNECTED_BIT);
-      ESP_LOGI(TAG_MQTT, "Disconnected from MQTT broker");
+      ESP_LOGW(TAG_MQTT, "Disconnected from MQTT broker");
       break;
     case MQTT_EVENT_SUBSCRIBED:
       ESP_LOGI(TAG_MQTT, "Subscribed. Message ID: %d", event->msg_id);
@@ -31,7 +31,7 @@ static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event) {
       ESP_LOGI(TAG_MQTT, "Data from topic [%.*s]: %.*s", event->topic_len, event->topic, event->data_len, event->data);
       break;
     case MQTT_EVENT_ERROR:
-      ESP_LOGI(TAG_MQTT, "Error");
+      ESP_LOGE(TAG_MQTT, "Error");
       break;
     default:
       ESP_LOGI(TAG_MQTT, "Other event id: %d", event->event_id);
@@ -82,4 +82,16 @@ void mqtt_subscribe(char *topic) {
 
 bool mqtt_is_connected(void) {
   return (xEventGroupGetBits(mqtt_event_group) & MQTT_CONNECTED_BIT) != 0;
+}
+
+void wait_mqtt_connection(const char* reason) {
+  ESP_LOGW(TAG_MQTT, "Waiting for MQTT connection (%s)...", reason);
+
+  xEventGroupWaitBits(mqtt_event_group,
+                      MQTT_CONNECTED_BIT,
+                      pdFALSE,
+                      pdTRUE,
+                      portMAX_DELAY);
+
+  ESP_LOGI(TAG_MQTT, "MQTT reconnected.");
 }

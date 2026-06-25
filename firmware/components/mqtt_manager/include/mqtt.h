@@ -36,7 +36,7 @@ extern "C" {
 
 void mqtt_app_start(void);
 
-void set_mqtt_connected(bool connected);
+void wait_mqtt_connection(const char* reason);
 
 bool mqtt_is_connected(void);
 
