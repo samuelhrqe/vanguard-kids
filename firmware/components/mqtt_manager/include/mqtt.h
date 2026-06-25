@@ -30,6 +30,10 @@ extern "C" {
 
 #define TAG_MQTT "MQTT Manager"
 
+// MQTT event group bits
+#define MQTT_CONNECTED_BIT BIT0
+#define MQTT_DISCONNECTED_BIT BIT1
+
 void mqtt_app_start(void);
 
 void set_mqtt_connected(bool connected);
