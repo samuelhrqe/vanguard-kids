@@ -158,7 +158,7 @@
                 "cols": "12"
             }
         ],
-        "order": 2,
+        "order": 3,
         "className": "",
         "visible": "true",
         "disabled": "false"
@@ -194,7 +194,7 @@
                 "cols": "12"
             }
         ],
-        "order": 3,
+        "order": 4,
         "className": "",
         "visible": "true",
         "disabled": "false"
@@ -217,6 +217,42 @@
             "groupBorderRadius": "4px",
             "widgetGap": "12px"
         }
+    },
+    {
+        "id": "3e3785269ead2918",
+        "type": "ui-page",
+        "name": "Route Info",
+        "ui": "25a105596d9fada6",
+        "path": "/route",
+        "icon": "map-marker-path",
+        "layout": "grid",
+        "theme": "aaf608b9cd2bdab0",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 2,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
     },
     {
         "id": "35d0dc14adfc5a26",
@@ -715,6 +751,27 @@
         ]
     },
     {
+        "id": "f080134adde4d054",
+        "type": "mqtt in",
+        "z": "e36b668a12db8bb5",
+        "name": "",
+        "topic": "vanguard-kids/route",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c027059c13cac823",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 480,
+        "wires": [
+            [
+                "8268ef5a83dbb0d7"
+            ]
+        ]
+    },
+    {
         "id": "abac25f4d3638634",
         "type": "change",
         "z": "e36b668a12db8bb5",
@@ -779,7 +836,7 @@
         "resendOnRefresh": true,
         "templateScope": "widget:page",
         "className": "",
-        "x": 1700,
+        "x": 1660,
         "y": 340,
         "wires": [
             []
@@ -829,6 +886,20 @@
         "className": "",
         "x": 1350,
         "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8268ef5a83dbb0d7",
+        "type": "json",
+        "z": "e36b668a12db8bb5",
+        "name": "JSON Analyzer",
+        "property": "payload",
+        "action": "str",
+        "pretty": true,
+        "x": 380,
+        "y": 480,
         "wires": [
             []
         ]
