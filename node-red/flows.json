@@ -130,10 +130,10 @@
     {
         "id": "4342aa2013cfee5e",
         "type": "ui-page",
-        "name": "Hearbeat",
+        "name": "Alerts",
         "ui": "25a105596d9fada6",
-        "path": "/heartbeat",
-        "icon": "heart-pulse",
+        "path": "/alerts",
+        "icon": "alert-circle",
         "layout": "grid",
         "theme": "aaf608b9cd2bdab0",
         "breakpoints": [
@@ -567,19 +567,19 @@
         "group": "",
         "page": "4342aa2013cfee5e",
         "ui": "",
-        "name": "Hearbeat Card",
+        "name": "Hearbeat & Safety Card",
         "order": 1,
         "width": "0",
         "height": "0",
         "head": "",
-        "format": "<template>\n    <div\n        class=\"heartbeat-card\"\n        :class=\"\n            !msg || !msg.payload\n                ? 'waiting'\n                : msg.payload.online\n                    ? 'online'\n                    : 'offline'\n        \"\n    >\n        <div class=\"card-header\">\n            <div>\n                <div class=\"card-title\">ESP32 Status</div>\n                <div class=\"card-subtitle\">\n                    MQTT heartbeat monitoring\n                </div>\n            </div>\n\n            <div\n                class=\"status-badge\"\n                :class=\"\n                    !msg || !msg.payload\n                        ? 'waiting-badge'\n                        : msg.payload.online\n                            ? 'online-badge'\n                            : 'offline-badge'\n                \"\n            >\n                <span class=\"status-dot\"></span>\n\n                {{\n                    !msg || !msg.payload\n                        ? \"WAITING\"\n                        : msg.payload.status\n                }}\n            </div>\n        </div>\n\n        <div class=\"card-content\">\n            <div class=\"information-row\">\n                <span class=\"label\">Client ID</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.client_id\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Configured seats</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.seats\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Last heartbeat</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.last_seen\n                            : \"Waiting for heartbeat\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Epoch timestamp</span>\n                <span class=\"value timestamp\">\n                    {{\n                        msg && msg.payload && msg.payload.ts\n                            ? msg.payload.ts\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n        </div>\n\n        <div\n            v-if=\"msg && msg.payload && !msg.payload.online\"\n            class=\"offline-warning\"\n        >\n            No heartbeat has been received within the expected interval.\n        </div>\n    </div>\n</template>\n\n<style scoped>\n.heartbeat-card {\n    width: calc(100% - 32px);;\n    max-width: 900px;\n    min-height: 210px;\n    margin: 24px auto;\n    padding: 20px;\n    border: 2px solid;\n    border-radius: 14px;\n    box-sizing: border-box;\n    transition: border-color 0.3s ease,\n                background-color 0.3s ease;\n}\n\n.heartbeat-card.online {\n    border-color: #2e7d32;\n    background-color: rgba(46, 125, 50, 0.08);\n}\n\n.heartbeat-card.offline {\n    border-color: #c62828;\n    background-color: rgba(198, 40, 40, 0.08);\n}\n\n.heartbeat-card.waiting {\n    border-color: #757575;\n    background-color: rgba(117, 117, 117, 0.08);\n}\n\n.card-header {\n    display: flex;\n    align-items: flex-start;\n    justify-content: space-between;\n    gap: 16px;\n    margin-bottom: 20px;\n}\n\n.card-title {\n    font-size: 1.25rem;\n    font-weight: 700;\n}\n\n.card-subtitle {\n    margin-top: 3px;\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.status-badge {\n    display: flex;\n    align-items: center;\n    gap: 7px;\n    padding: 7px 11px;\n    border-radius: 20px;\n    font-size: 0.75rem;\n    font-weight: 700;\n}\n\n.online-badge {\n    color: #1b5e20;\n    background-color: rgba(76, 175, 80, 0.2);\n}\n\n.offline-badge {\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.2);\n}\n\n.waiting-badge {\n    color: #424242;\n    background-color: rgba(158, 158, 158, 0.2);\n}\n\n.status-dot {\n    width: 9px;\n    height: 9px;\n    border-radius: 50%;\n    background-color: currentColor;\n}\n\n.information-row {\n    display: flex;\n    justify-content: space-between;\n    gap: 16px;\n    padding: 8px 0;\n    border-bottom: 1px solid rgba(128, 128, 128, 0.2);\n}\n\n.information-row:last-child {\n    border-bottom: none;\n}\n\n.label {\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.value {\n    font-weight: 600;\n    text-align: right;\n}\n\n.timestamp {\n    font-family: monospace;\n}\n\n.offline-warning {\n    margin-top: 16px;\n    padding: 10px;\n    border-radius: 8px;\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.12);\n    font-size: 0.85rem;\n}\n</style>",
+        "format": "<template>\n    <div\n        class=\"heartbeat-card\"\n        :class=\"cardState\"\n    >\n        <div class=\"card-header\">\n            <div>\n                <div class=\"card-title\">\n                    ESP32 Status & Safety\n                </div>\n\n                <div class=\"card-subtitle\">\n                    MQTT heartbeat and seat occupancy monitoring\n                </div>\n            </div>\n\n            <div\n                class=\"status-badge\"\n                :class=\"badgeClass\"\n            >\n                <span class=\"status-dot\"></span>\n                {{ statusText }}\n            </div>\n        </div>\n\n        <div class=\"card-content\">\n            <div class=\"information-row\">\n                <span class=\"label\">Client ID</span>\n\n                <span class=\"value\">\n                    {{ payload.client_id || \"—\" }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Configured seats</span>\n\n                <span class=\"value\">\n                    {{ payload.seats ?? \"—\" }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Occupied seats</span>\n\n                <span class=\"value\">\n                    {{ payload.occupied_count ?? 0 }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Last heartbeat</span>\n\n                <span class=\"value\">\n                    {{\n                        payload.last_seen ||\n                        \"Waiting for heartbeat\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Epoch timestamp</span>\n\n                <span class=\"value timestamp\">\n                    {{ payload.ts || \"—\" }}\n                </span>\n            </div>\n        </div>\n\n        <div\n            v-if=\"isOffline && !isCritical\"\n            class=\"offline-warning\"\n        >\n            No heartbeat has been received within the expected\n            interval. No occupied seats were last reported.\n        </div>\n\n        <div\n            v-if=\"isCritical\"\n            class=\"critical-warning\"\n        >\n            <div class=\"critical-header\">\n                <div class=\"critical-icon\">\n                    !\n                </div>\n\n                <div>\n                    <div class=\"critical-title\">\n                        VEHICLE SAFETY ALERT\n                    </div>\n\n                    <div class=\"critical-message\">\n                        The ESP32 is offline and\n                        {{ payload.occupied_count }}\n                        seat(s) were last reported as occupied.\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"occupied-seats\">\n                <span\n                    v-for=\"seat in occupiedSeats\"\n                    :key=\"seat\"\n                    class=\"seat-chip\"\n                >\n                    {{ formatSeat(seat) }}\n                </span>\n            </div>\n\n            <div class=\"critical-instruction\">\n                Check the vehicle immediately.\n            </div>\n        </div>\n    </div>\n</template>\n\n<script>\nexport default {\n    computed: {\n        payload() {\n            return this.msg?.payload || {};\n        },\n\n        isWaiting() {\n            return (\n                !this.msg ||\n                !this.msg.payload ||\n                typeof this.payload.online !== \"boolean\"\n            );\n        },\n\n        isOffline() {\n            return (\n                !this.isWaiting &&\n                this.payload.online === false\n            );\n        },\n\n        isCritical() {\n            return this.payload.critical_alert === true;\n        },\n\n        occupiedSeats() {\n            return Array.isArray(\n                this.payload.occupied_seats\n            )\n                ? this.payload.occupied_seats\n                : [];\n        },\n\n        cardState() {\n            if (this.isCritical) {\n                return \"critical\";\n            }\n\n            if (this.isWaiting) {\n                return \"waiting\";\n            }\n\n            return this.payload.online\n                ? \"online\"\n                : \"offline\";\n        },\n\n        badgeClass() {\n            if (this.isCritical) {\n                return \"critical-badge\";\n            }\n\n            if (this.isWaiting) {\n                return \"waiting-badge\";\n            }\n\n            return this.payload.online\n                ? \"online-badge\"\n                : \"offline-badge\";\n        },\n\n        statusText() {\n            if (this.isCritical) {\n                return \"CRITICAL\";\n            }\n\n            if (this.isWaiting) {\n                return \"WAITING\";\n            }\n\n            return this.payload.status ||\n                (this.payload.online\n                    ? \"ONLINE\"\n                    : \"OFFLINE\");\n        }\n    },\n\n    methods: {\n        formatSeat(value) {\n            const seat = String(value || \"\");\n            const match = seat.match(/seat-(\\d+)/i);\n\n            if (match) {\n                return `Seat ${Number(match[1])}`;\n            }\n\n            return seat;\n        }\n    }\n};\n</script>\n\n<style scoped>\n.heartbeat-card {\n    width: calc(100% - 32px);\n    max-width: 900px;\n    min-height: 210px;\n\n    margin: 24px auto;\n    padding: 20px;\n\n    border: 2px solid;\n    border-radius: 14px;\n\n    box-sizing: border-box;\n\n    transition:\n        border-color 0.3s ease,\n        background-color 0.3s ease,\n        box-shadow 0.3s ease;\n}\n\n.heartbeat-card.online {\n    border-color: #2e7d32;\n    background-color: rgba(46, 125, 50, 0.08);\n}\n\n.heartbeat-card.offline {\n    border-color: #c62828;\n    background-color: rgba(198, 40, 40, 0.08);\n}\n\n.heartbeat-card.waiting {\n    border-color: #757575;\n    background-color: rgba(117, 117, 117, 0.08);\n}\n\n.heartbeat-card.critical {\n    border-color: #b71c1c;\n    background-color: rgba(198, 40, 40, 0.13);\n\n    box-shadow:\n        0 4px 16px rgba(183, 28, 28, 0.20);\n}\n\n.card-header {\n    display: flex;\n    align-items: flex-start;\n    justify-content: space-between;\n\n    gap: 16px;\n    margin-bottom: 20px;\n}\n\n.card-title {\n    font-size: 1.25rem;\n    font-weight: 700;\n}\n\n.card-subtitle {\n    margin-top: 3px;\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.status-badge {\n    display: flex;\n    align-items: center;\n    gap: 7px;\n\n    padding: 7px 11px;\n    border-radius: 20px;\n\n    font-size: 0.75rem;\n    font-weight: 700;\n}\n\n.online-badge {\n    color: #1b5e20;\n    background-color: rgba(76, 175, 80, 0.20);\n}\n\n.offline-badge {\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.20);\n}\n\n.waiting-badge {\n    color: #424242;\n    background-color: rgba(158, 158, 158, 0.20);\n}\n\n.critical-badge {\n    color: #ffffff;\n    background-color: #b71c1c;\n}\n\n.status-dot {\n    width: 9px;\n    height: 9px;\n\n    border-radius: 50%;\n    background-color: currentColor;\n}\n\n.information-row {\n    display: flex;\n    justify-content: space-between;\n\n    gap: 16px;\n    padding: 8px 0;\n\n    border-bottom:\n        1px solid rgba(128, 128, 128, 0.20);\n}\n\n.information-row:last-child {\n    border-bottom: none;\n}\n\n.label {\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.value {\n    font-weight: 600;\n    text-align: right;\n}\n\n.timestamp {\n    font-family: monospace;\n}\n\n.offline-warning {\n    margin-top: 16px;\n    padding: 10px 12px;\n\n    border-radius: 8px;\n\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.12);\n\n    font-size: 0.85rem;\n    line-height: 1.4;\n}\n\n.critical-warning {\n    margin-top: 18px;\n    padding: 16px;\n\n    border:\n        1px solid rgba(183, 28, 28, 0.50);\n\n    border-radius: 10px;\n\n    color: #7f1010;\n    background-color: rgba(244, 67, 54, 0.16);\n}\n\n.critical-header {\n    display: flex;\n    align-items: center;\n    gap: 12px;\n}\n\n.critical-icon {\n    width: 40px;\n    height: 40px;\n    min-width: 40px;\n\n    display: flex;\n    align-items: center;\n    justify-content: center;\n\n    border-radius: 50%;\n\n    color: #ffffff;\n    background-color: #b71c1c;\n\n    font-size: 1.35rem;\n    font-weight: 800;\n}\n\n.critical-title {\n    font-size: 0.88rem;\n    font-weight: 800;\n    letter-spacing: 0.04rem;\n}\n\n.critical-message {\n    margin-top: 3px;\n    font-size: 0.86rem;\n    line-height: 1.4;\n}\n\n.occupied-seats {\n    display: flex;\n    flex-wrap: wrap;\n    gap: 8px;\n\n    margin-top: 14px;\n}\n\n.seat-chip {\n    padding: 6px 11px;\n\n    border: 1px solid #b71c1c;\n    border-radius: 999px;\n\n    background-color: rgba(255, 255, 255, 0.30);\n\n    font-size: 0.78rem;\n    font-weight: 700;\n}\n\n.critical-instruction {\n    margin-top: 14px;\n    padding-top: 12px;\n\n    border-top:\n        1px solid rgba(183, 28, 28, 0.30);\n\n    font-size: 0.86rem;\n    font-weight: 700;\n}\n\n@media (max-width: 700px) {\n    .heartbeat-card {\n        width: calc(100% - 20px);\n        margin: 12px auto;\n        padding: 16px;\n    }\n\n    .card-header {\n        flex-direction: column;\n    }\n\n    .information-row {\n        align-items: flex-start;\n        flex-direction: column;\n        gap: 3px;\n    }\n\n    .value {\n        text-align: left;\n    }\n\n    .critical-header {\n        align-items: flex-start;\n    }\n}\n</style>",
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "widget:page",
         "className": "",
-        "x": 1280,
-        "y": 340,
+        "x": 1350,
+        "y": 320,
         "wires": [
             []
         ]
@@ -588,20 +588,23 @@
         "id": "584f188affeb120a",
         "type": "function",
         "z": "e36b668a12db8bb5",
-        "name": "Prepare Heartbeat card",
-        "func": "const lastHeartbeat = flow.get(\"lastHeartbeat\") || {\n    client_id: \"Unknown\",\n    seats: 0,\n    ts: null,\n    ts_ms: null,\n    last_seen: \"No heartbeat received\"\n};\n\n// Timeout gerado pelo Trigger\nif (msg.payload === \"OFFLINE\") {\n    msg.payload = {\n        ...lastHeartbeat,\n        online: false,\n        status: \"OFFLINE\"\n    };\n\n    return msg;\n}\n\n// Heartbeat normal\nif (\n    typeof msg.payload === \"object\" &&\n    msg.payload !== null\n) {\n    msg.payload = {\n        ...msg.payload,\n        online: true,\n        status: \"ONLINE\"\n    };\n\n    flow.set(\"lastHeartbeat\", msg.payload);\n\n    return msg;\n}\n\nnode.warn(`Unexpected payload: ${msg.payload}`);\nreturn null;",
-        "outputs": 1,
+        "name": "Prepare Heartbeat & Safety Card",
+        "func": "/*\n * Recover the last known heartbeat state.\n */\nlet heartbeat = flow.get(\"heartbeatCardState\") || {\n    online: null,\n    status: \"WAITING\",\n    client_id: \"—\",\n    seats: 4,\n    last_seen: \"Waiting for heartbeat\",\n    ts: null\n};\n\nconst input = msg.payload;\nconst isSeatUpdate = msg.topic === \"seat-update\";\n\nconst isOfflineEvent =\n    typeof input === \"string\" &&\n    input.toUpperCase() === \"OFFLINE\";\n\n/*\n * Update heartbeat data only for heartbeat events.\n * A seat update must not replace heartbeat information.\n */\nif (isOfflineEvent) {\n    heartbeat.online = false;\n    heartbeat.status = \"OFFLINE\";\n} else if (\n    !isSeatUpdate &&\n    input &&\n    typeof input === \"object\"\n) {\n    heartbeat = {\n        ...heartbeat,\n        ...input,\n        online: true,\n        status: \"ONLINE\"\n    };\n}\n\nflow.set(\"heartbeatCardState\", heartbeat);\n\n/*\n * Read the latest seat states from the flow context.\n */\nconst seatMap = flow.get(\"currentSeatMap\") || {};\n\nlet seats = [];\n\nif (Array.isArray(seatMap)) {\n    seats = seatMap;\n} else if (Array.isArray(seatMap.seats)) {\n    seats = seatMap.seats;\n} else {\n    seats = Object.values(seatMap).filter(\n        seat =>\n            seat &&\n            typeof seat === \"object\" &&\n            typeof seat.occupied === \"boolean\"\n    );\n}\n\nconst occupiedSeats = seats.filter(\n    seat => seat.occupied === true\n);\n\nconst occupiedNames = occupiedSeats.map(\n    seat =>\n        seat.name ||\n        seat.seat ||\n        seat.id ||\n        \"Unknown seat\"\n);\n\n/*\n * Critical condition:\n * ESP32 offline with one or more occupied seats.\n */\nconst criticalAlert =\n    heartbeat.online === false &&\n    occupiedNames.length > 0;\n\n/*\n * Output 1: card update.\n *\n * This output is generated for:\n * - heartbeat messages;\n * - offline events;\n * - seat state updates.\n */\nconst cardMessage = {\n    payload: {\n        ...heartbeat,\n\n        status: criticalAlert\n            ? \"CRITICAL\"\n            : heartbeat.status,\n\n        occupied_count: occupiedNames.length,\n        occupied_seats: occupiedNames,\n        critical_alert: criticalAlert\n    }\n};\n\n/*\n * Output 2: notification.\n * Avoid repeated notifications while the same alert is active.\n */\nconst alertWasActive =\n    flow.get(\"heartbeatSafetyAlertActive\") === true;\n\nlet notificationMessage = null;\n\nif (criticalAlert && !alertWasActive) {\n    const formattedSeats = occupiedNames\n        .map(formatSeat)\n        .join(\", \");\n\n\n    notificationMessage = {\n        payload: `\n            <div class=\"safety-notification-content\">\n                <div class=\"safety-notification-header\">\n                    <div class=\"safety-notification-icon\">!</div>\n\n                    <div>\n                        <div class=\"safety-notification-title\"> \n                            VEHICLE SAFETY ALERT\n                        </div>\n                        <div class=\"safety-notification-message\">\n                            The ESP32 is offline and ${occupiedNames.length} seat(s) were last reported as occupied.\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"safety-notification-seats\">\n                    ${occupiedNames\n                    .map(seat => `<span>${formatSeat(seat)}</span>`)\n                    .join(\"\")}\n                </div>\n\n                <div class=\"safety-notification-instruction\">\n                    Check the vehicle immediately.\n                </div>\n            </div >\n        `,\n\n        show: true,\n\n        ui_update: {\n            raw: true,\n            color: \"rgb(198, 40, 40)\",\n            position: \"top right\",\n            displayTime: 0,\n            allowDismiss: true,\n            dismissText: \"Dismiss\",\n            showCountdown: false\n        }\n    };\n\n}\n\n/*\n * Close the notification when the critical condition clears.\n */\nif (!criticalAlert && alertWasActive) {\n    notificationMessage = {\n        show: false\n    };\n}\n\nflow.set(\n    \"heartbeatSafetyAlertActive\",\n    criticalAlert\n);\n\nreturn [\n    cardMessage,\n    notificationMessage\n];\n\nfunction formatSeat(value) {\n    const seat = String(value || \"\");\n    const match = seat.match(/seat-(\\d+)/i);\n\n    if (match) {\n        return `Seat ${Number(match[1])}`;\n    }\n\n    return seat;\n}",
+        "outputs": 2,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1050,
+        "x": 1080,
         "y": 340,
         "wires": [
             [
                 "97badfebe57536e3",
                 "283d70aaf56a09fc"
+            ],
+            [
+                "8ffca381e93bf942"
             ]
         ]
     },
@@ -618,8 +621,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1260,
-        "y": 380,
+        "x": 1300,
+        "y": 280,
         "wires": []
     },
     {
@@ -658,7 +661,8 @@
         "y": 200,
         "wires": [
             [
-                "ed594a5b7f2d83c0"
+                "ed594a5b7f2d83c0",
+                "abac25f4d3638634"
             ]
         ]
     },
@@ -706,6 +710,125 @@
         "className": "",
         "x": 860,
         "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "abac25f4d3638634",
+        "type": "change",
+        "z": "e36b668a12db8bb5",
+        "name": "Seat Update Event",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "seat-update",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 850,
+        "y": 280,
+        "wires": [
+            [
+                "584f188affeb120a"
+            ]
+        ]
+    },
+    {
+        "id": "d852e1b81fc88e1e",
+        "type": "function",
+        "z": "e36b668a12db8bb5",
+        "d": true,
+        "name": "Prepare Heartbeat card",
+        "func": "const lastHeartbeat = flow.get(\"lastHeartbeat\") || {\n    client_id: \"Unknown\",\n    seats: 0,\n    ts: null,\n    ts_ms: null,\n    last_seen: \"No heartbeat received\"\n};\n\n// Timeout gerado pelo Trigger\nif (msg.payload === \"OFFLINE\") {\n    msg.payload = {\n        ...lastHeartbeat,\n        online: false,\n        status: \"OFFLINE\"\n    };\n\n    return msg;\n}\n\n// Heartbeat normal\nif (\n    typeof msg.payload === \"object\" &&\n    msg.payload !== null\n) {\n    msg.payload = {\n        ...msg.payload,\n        online: true,\n        status: \"ONLINE\"\n    };\n\n    flow.set(\"lastHeartbeat\", msg.payload);\n\n    return msg;\n}\n\nnode.warn(`Unexpected payload: ${msg.payload}`);\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1690,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b952fc54ec3a80d9",
+        "type": "ui-template",
+        "z": "e36b668a12db8bb5",
+        "d": true,
+        "group": "",
+        "page": "4342aa2013cfee5e",
+        "ui": "",
+        "name": "Hearbeat Card",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "head": "",
+        "format": "<template>\n    <div\n        class=\"heartbeat-card\"\n        :class=\"\n            !msg || !msg.payload\n                ? 'waiting'\n                : msg.payload.online\n                    ? 'online'\n                    : 'offline'\n        \"\n    >\n        <div class=\"card-header\">\n            <div>\n                <div class=\"card-title\">ESP32 Status</div>\n                <div class=\"card-subtitle\">\n                    MQTT heartbeat monitoring\n                </div>\n            </div>\n\n            <div\n                class=\"status-badge\"\n                :class=\"\n                    !msg || !msg.payload\n                        ? 'waiting-badge'\n                        : msg.payload.online\n                            ? 'online-badge'\n                            : 'offline-badge'\n                \"\n            >\n                <span class=\"status-dot\"></span>\n\n                {{\n                    !msg || !msg.payload\n                        ? \"WAITING\"\n                        : msg.payload.status\n                }}\n            </div>\n        </div>\n\n        <div class=\"card-content\">\n            <div class=\"information-row\">\n                <span class=\"label\">Client ID</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.client_id\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Configured seats</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.seats\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Last heartbeat</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.last_seen\n                            : \"Waiting for heartbeat\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Epoch timestamp</span>\n                <span class=\"value timestamp\">\n                    {{\n                        msg && msg.payload && msg.payload.ts\n                            ? msg.payload.ts\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n        </div>\n\n        <div\n            v-if=\"msg && msg.payload && !msg.payload.online\"\n            class=\"offline-warning\"\n        >\n            No heartbeat has been received within the expected interval.\n        </div>\n    </div>\n</template>\n\n<style scoped>\n.heartbeat-card {\n    width: calc(100% - 32px);;\n    max-width: 900px;\n    min-height: 210px;\n    margin: 24px auto;\n    padding: 20px;\n    border: 2px solid;\n    border-radius: 14px;\n    box-sizing: border-box;\n    transition: border-color 0.3s ease,\n                background-color 0.3s ease;\n}\n\n.heartbeat-card.online {\n    border-color: #2e7d32;\n    background-color: rgba(46, 125, 50, 0.08);\n}\n\n.heartbeat-card.offline {\n    border-color: #c62828;\n    background-color: rgba(198, 40, 40, 0.08);\n}\n\n.heartbeat-card.waiting {\n    border-color: #757575;\n    background-color: rgba(117, 117, 117, 0.08);\n}\n\n.card-header {\n    display: flex;\n    align-items: flex-start;\n    justify-content: space-between;\n    gap: 16px;\n    margin-bottom: 20px;\n}\n\n.card-title {\n    font-size: 1.25rem;\n    font-weight: 700;\n}\n\n.card-subtitle {\n    margin-top: 3px;\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.status-badge {\n    display: flex;\n    align-items: center;\n    gap: 7px;\n    padding: 7px 11px;\n    border-radius: 20px;\n    font-size: 0.75rem;\n    font-weight: 700;\n}\n\n.online-badge {\n    color: #1b5e20;\n    background-color: rgba(76, 175, 80, 0.2);\n}\n\n.offline-badge {\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.2);\n}\n\n.waiting-badge {\n    color: #424242;\n    background-color: rgba(158, 158, 158, 0.2);\n}\n\n.status-dot {\n    width: 9px;\n    height: 9px;\n    border-radius: 50%;\n    background-color: currentColor;\n}\n\n.information-row {\n    display: flex;\n    justify-content: space-between;\n    gap: 16px;\n    padding: 8px 0;\n    border-bottom: 1px solid rgba(128, 128, 128, 0.2);\n}\n\n.information-row:last-child {\n    border-bottom: none;\n}\n\n.label {\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.value {\n    font-weight: 600;\n    text-align: right;\n}\n\n.timestamp {\n    font-family: monospace;\n}\n\n.offline-warning {\n    margin-top: 16px;\n    padding: 10px;\n    border-radius: 8px;\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.12);\n    font-size: 0.85rem;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "widget:page",
+        "className": "",
+        "x": 1700,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8ffca381e93bf942",
+        "type": "ui-notification",
+        "z": "e36b668a12db8bb5",
+        "ui": "25a105596d9fada6",
+        "position": "top right",
+        "colorDefault": false,
+        "color": "#c62828",
+        "displayTime": "0",
+        "showCountdown": true,
+        "outputs": 1,
+        "allowDismiss": true,
+        "dismissText": "Dismiss",
+        "allowConfirm": false,
+        "confirmText": "Confirm",
+        "raw": true,
+        "className": "safety-notification",
+        "name": "ESP32 Safety Alert",
+        "x": 1330,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bcbe56afdfef7760",
+        "type": "ui-template",
+        "z": "e36b668a12db8bb5",
+        "group": "",
+        "page": "",
+        "ui": "25a105596d9fada6",
+        "name": "Safety Notification Style",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "/* =========================================================\n   SAFETY NOTIFICATION\n   ========================================================= */\n\n/*\n * Seletores principais quando a classe definida no\n * ui-notification é aplicada ao componente.\n */\n.safety-notification .v-snackbar__wrapper,\n.safety-notification.v-snackbar .v-snackbar__wrapper,\n.nrdb-ui-notification.safety-notification\n.v-snackbar__wrapper,\n\n/*\n * Alternativa que identifica a notificação pelo conteúdo.\n * Útil em versões nas quais o campo Class não aparece\n * corretamente no elemento renderizado.\n */\n.nrdb-ui-notification:has(.safety-notification-content)\n.v-snackbar__wrapper {\n  width: min(560px, calc(100vw - 32px)) !important;\n  min-width: 0 !important;\n  max-width: 560px !important;\n\n  color: rgb(113, 20, 20) !important;\n  background-color: rgb(250, 232, 232) !important;\n\n  border: 2px solid rgb(198, 40, 40) !important;\n  border-radius: 14px !important;\n\n  box-shadow:\n    0 8px 24px rgba(198, 40, 40, 0.22) !important;\n\n  overflow: hidden !important;\n}\n\n/* Conteúdo interno do snackbar */\n.safety-notification .v-snackbar__content,\n.nrdb-ui-notification:has(.safety-notification-content)\n.v-snackbar__content {\n  padding: 18px 20px !important;\n\n  color: inherit !important;\n\n  font-size: 0.88rem !important;\n  line-height: 1.45 !important;\n}\n\n/* Estrutura do conteúdo */\n.safety-notification-content {\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.safety-notification-header {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.safety-notification-icon {\n  width: 40px;\n  height: 40px;\n  min-width: 40px;\n\n  display: flex;\n  align-items: center;\n  justify-content: center;\n\n  color: rgb(255, 255, 255);\n  background-color: rgb(198, 40, 40);\n\n  border-radius: 50%;\n\n  font-size: 1.3rem;\n  font-weight: 800;\n}\n\n.safety-notification-title {\n  font-size: 0.9rem;\n  font-weight: 800;\n  letter-spacing: 0.04rem;\n}\n\n.safety-notification-message {\n  margin-top: 3px;\n\n  font-size: 0.85rem;\n  line-height: 1.4;\n}\n\n/* Chips dos assentos */\n.safety-notification-seats {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 7px;\n\n  margin-top: 14px;\n}\n\n.safety-notification-seats span {\n  padding: 5px 10px;\n\n  color: rgb(113, 20, 20);\n  background-color: rgba(255, 255, 255, 0.45);\n\n  border: 1px solid rgb(198, 40, 40);\n  border-radius: 999px;\n\n  font-size: 0.76rem;\n  font-weight: 700;\n}\n\n/* Instrução final */\n.safety-notification-instruction {\n  margin-top: 14px;\n  padding-top: 11px;\n\n  border-top:\n    1px solid rgba(198, 40, 40, 0.30);\n\n  font-size: 0.85rem;\n  font-weight: 700;\n}\n\n/* Área dos botões */\n.safety-notification .v-snackbar__actions,\n.nrdb-ui-notification:has(.safety-notification-content)\n.v-snackbar__actions {\n  padding: 8px 14px 12px !important;\n}\n\n/* Botão Dismiss */\n.safety-notification .v-snackbar__actions .v-btn,\n.nrdb-ui-notification:has(.safety-notification-content)\n.v-snackbar__actions .v-btn {\n  min-width: 84px !important;\n\n  color: rgb(255, 255, 255) !important;\n  background-color: rgb(198, 40, 40) !important;\n\n  border-radius: 8px !important;\n\n  font-size: 0.75rem !important;\n  font-weight: 700 !important;\n  text-transform: none !important;\n}\n\n/* Hover do botão */\n.safety-notification .v-snackbar__actions .v-btn:hover,\n.nrdb-ui-notification:has(.safety-notification-content)\n.v-snackbar__actions .v-btn:hover {\n  background-color: rgb(183, 28, 28) !important;\n}\n\n/* Responsividade */\n@media (max-width: 600px) {\n  .safety-notification .v-snackbar__wrapper,\n  .nrdb-ui-notification:has(.safety-notification-content)\n  .v-snackbar__wrapper {\n    width: calc(100vw - 20px) !important;\n    max-width: calc(100vw - 20px) !important;\n\n    border-radius: 12px !important;\n  }\n\n  .safety-notification .v-snackbar__content,\n  .nrdb-ui-notification:has(.safety-notification-content)\n  .v-snackbar__content {\n    padding: 15px !important;\n  }\n\n  .safety-notification-header {\n    align-items: flex-start;\n  }\n\n  .safety-notification-icon {\n    width: 34px;\n    height: 34px;\n    min-width: 34px;\n\n    font-size: 1.1rem;\n  }\n}",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "site:style",
+        "className": "",
+        "x": 1350,
+        "y": 400,
         "wires": [
             []
         ]
