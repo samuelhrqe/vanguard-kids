@@ -24,7 +24,7 @@
 
 #include "adc_manager.h"
 
- // Memory task size
+// Memory task size
 #define MEMORY_TASK (2048 * 2)
 
 // ESP_LOG -> Needed to ESP_LOGI, ESP_LOGE, etc in Wokwi Web Simulator
@@ -41,9 +41,6 @@
 
 // Heartbeat interval in milliseconds
 #define HEARTBEAT_INTERVAL_MS 30000
-
-// MQTT retry delay in milliseconds
-#define MQTT_RETRY_DELAY_MS   500
 
 // MQTT topics
 #define MQTT_TOPIC_SEAT_FMT  "vanguard-kids/seats/%s"
@@ -85,10 +82,10 @@ ESP_STATIC_ASSERT(sizeof(Seat) == 28, "Seat size mismatch");
 
 // Seat configurations — mapping seat IDs to ADC channels and names
 static Seat seats[SEAT_COUNT] = {
-  {.id = SEAT_01, .name = "seat-01", .initialized = false, .adc_channel = ADC_CHANNEL_6 /* GPIO34 */ },
-  {.id = SEAT_02, .name = "seat-02", .initialized = false, .adc_channel = ADC_CHANNEL_7 /* GPIO35 */ },
-  {.id = SEAT_03, .name = "seat-03", .initialized = false, .adc_channel = ADC_CHANNEL_4 /* GPIO32 */ },
-  {.id = SEAT_04, .name = "seat-04", .initialized = false, .adc_channel = ADC_CHANNEL_5 /* GPIO33 */ },
+  { .id = SEAT_01, .name = "seat-01", .initialized = false, .adc_channel = ADC_CHANNEL_6 /* GPIO34 */ },
+  { .id = SEAT_02, .name = "seat-02", .initialized = false, .adc_channel = ADC_CHANNEL_7 /* GPIO35 */ },
+  { .id = SEAT_03, .name = "seat-03", .initialized = false, .adc_channel = ADC_CHANNEL_4 /* GPIO32 */ },
+  { .id = SEAT_04, .name = "seat-04", .initialized = false, .adc_channel = ADC_CHANNEL_5 /* GPIO33 */ },
 };
 
 static TaskHandle_t  xSeatsTaskHandle;
@@ -103,20 +100,18 @@ void app_main(void) {
   esp_log_level_set(TAG, ESP_LOG_VERBOSE);
 
   ESP_ERROR_CHECK(nvs_flash_init());
+
   wifi_init_sta();
 
   // SNTP sync
   time_manager_init();
-
-  vTaskDelay(pdMS_TO_TICKS(2000));
-
   mqtt_app_start();
 
   ChannelConfig adc_channels[SEAT_COUNT] = {
-    {.channel = ADC_CHANNEL_6 },
-    {.channel = ADC_CHANNEL_7 },
-    {.channel = ADC_CHANNEL_4 },
-    {.channel = ADC_CHANNEL_5 },
+    { .channel = ADC_CHANNEL_6 },
+    { .channel = ADC_CHANNEL_7 },
+    { .channel = ADC_CHANNEL_4 },
+    { .channel = ADC_CHANNEL_5 },
   };
 
   ESP_ERROR_CHECK(adc_manager_init(adc_channels, SEAT_COUNT));
@@ -206,39 +201,31 @@ static void vTaskSeats(void* pvParameters) {
 static void vTaskMQTT(void* pvParameters) {
   UNUSED(pvParameters);
 
-  bool first_run = true;
   SeatMessage msg;
   char topic[64];
   char payload[256];
 
-  // Heartbeat timestamp tracking
-  TickType_t last_heartbeat = xTaskGetTickCount();
+  // Initialize last_heartbeat to ensure the first heartbeat is sent immediately
+  TickType_t last_heartbeat = xTaskGetTickCount() - pdMS_TO_TICKS(HEARTBEAT_INTERVAL_MS);
 
   while (1) {
     TickType_t now = xTaskGetTickCount();
-
-    // Check if it's time to send a heartbeat message
     bool heartbeat_due = (now - last_heartbeat) >= pdMS_TO_TICKS(HEARTBEAT_INTERVAL_MS);
 
-    if (heartbeat_due || first_run) {
+    if (heartbeat_due) {
       if (mqtt_is_connected()) {
-        int64_t ts = get_epoch();
-
         snprintf(payload, sizeof(payload),
           "{\"client_id\":\"%s\",\"ts\":%" PRId64 ",\"seats\":%d}",
           CONFIG_MQTT_CLIENT_ID,
-          ts,
+          get_epoch(),
           SEAT_COUNT
         );
 
         mqtt_publish(MQTT_TOPIC_HEARTBEAT, payload);
         ESP_LOGI(TAG, "Heartbeat publicado");
-
-        first_run = false;
-
-      }
-      else {
-        ESP_LOGW(TAG, "Heartbeat pendente. MQTT offline");
+      } else {
+        // Broker offline. Wait for connection before sending heartbeat
+        wait_mqtt_connection("heartbeat");
       }
 
       last_heartbeat = now;
@@ -279,8 +266,7 @@ static void vTaskMQTT(void* pvParameters) {
     if (mqtt_is_connected()) {
       mqtt_publish(topic, payload);
       ESP_LOGI(TAG, "Publicado → %s", topic);
-    }
-    else {
+    } else {
       // MQTT offline — re-enqueue the message for retry
       ESP_LOGW(TAG, "MQTT offline. Re-enfileirando: %s", msg.name);
 
@@ -288,7 +274,7 @@ static void vTaskMQTT(void* pvParameters) {
         ESP_LOGE(TAG, "Fila cheia. Mensagem perdida: %s", msg.name);
       }
 
-      vTaskDelay(pdMS_TO_TICKS(MQTT_RETRY_DELAY_MS));
+      wait_mqtt_connection("publish");
     }
   }
 }
