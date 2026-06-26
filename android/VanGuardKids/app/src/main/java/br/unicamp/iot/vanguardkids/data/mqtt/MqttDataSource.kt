@@ -24,6 +24,9 @@ class MqttDataSource {
         private const val SEATS_TOPIC_FILTER = "vanguard-kids/seats/+"
         private const val SEATS_TOPIC_PREFIX = "vanguard-kids/seats/"
         private const val HEARTBEAT_TOPIC = "vanguard-kids/heartbeat"
+
+        // NOVO: Tópico para emitir os alertas para o Node-RED
+        private const val ALERTS_TOPIC = "vanguard-kids/route"
     }
 
     private val clientId = "vk-${UUID.randomUUID().toString().take(12)}"
@@ -34,6 +37,45 @@ class MqttDataSource {
     private val _seatingState = MutableStateFlow(SeatingMqttState())
 
     val seatingState: StateFlow<SeatingMqttState> = _seatingState
+
+    // function para empacotar json para o node-red
+    fun publishRouteStatus(
+        routeName: String,
+        stopsCount: String,
+        state: String, // "Stop" | "In Progress" | "Completed"
+        isBlockedAttempt: Boolean
+    ) {
+        val client = mqttClient
+        if (client == null || !client.isConnected) {
+            Log.w(TAG, "Falha ao publicar atualização da rota: MQTT desconectado.")
+            return
+        }
+
+        try {
+            // Calcula em tempo de execução a quantidade de assentos ocupados
+            val occupiedCount = _seatingState.value.seats.values.count { it.isOccupied == true }
+
+            val jsonPayload = JSONObject().apply {
+                put("name", routeName)
+                put("stops", stopsCount)
+                put("seats_occupied", occupiedCount)
+                put("ts", System.currentTimeMillis())
+                put("state", state)
+                put("block_alert", isBlockedAttempt)
+            }
+
+            val message = MqttMessage(
+                jsonPayload.toString().toByteArray(Charsets.UTF_8)).apply {
+                qos = 1
+            }
+
+            client.publish(ALERTS_TOPIC, message)
+            Log.d(TAG, "JSON da rota enviado ao Node-RED: $jsonPayload")
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Erro ao publicar no tópico de rotas", e)
+        }
+    }
 
     @Synchronized
     fun connect() {
