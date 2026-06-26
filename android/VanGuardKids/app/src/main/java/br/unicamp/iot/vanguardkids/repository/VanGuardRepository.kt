@@ -9,14 +9,23 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 data class MockRoute(
-    val name: String = "Rota da manhã",
-    val startTime: String = "14:15",
-    val stopsCountText: String = "4",
-    val safetyStatusText: String = "Aguardando início",
-    val state: String = "Stop" // Estados válidos: "Stop" | "In Progress" | "Completed"
+    val name: String = "Selecione uma Rota...",
+    val startTime: String = "--:--",
+    val stopsCountText: String = "-",
+    val safetyStatusText: String = "Selecione uma rota para começar",
+    val state: String = "Unselected" // "Unselected" | "Stop" | "In Progress" | "Completed"
 )
 
 class VanGuardRepository {
+    companion object {
+        // Banco de dados mockado em memória com as opções de rotas para o motorista
+        val AVAILABLE_ROUTES = listOf(
+            MockRoute("Rota Centro - Manhã", "07:00", "5"),
+            MockRoute("Rota Unicamp - Almoço", "11:30", "4"),
+            MockRoute("Rota Norte - Tarde", "14:15", "8"),
+            MockRoute("Rota Especial - Noite", "19:00", "6")
+        )
+    }
 
     private val mqttDataSource = MqttDataSource()
     private val magDataSource = MagDataSource()
@@ -34,6 +43,12 @@ class VanGuardRepository {
         mqttDataSource.disconnect()
     }
 
+    fun selectRoute(route: MockRoute) {
+        // Quando selecionado, passa do estado "Unselected" para "Stop" (Ativa o botão de Iniciar)
+        _routeState.value = route.copy(safetyStatusText = "Aguardando início", state = "Stop")
+        dispatchRouteTelemetry(isBlocked = false)
+    }
+
     // altera o estado para Em Percurso ("In Progress") e avisa o Node-RED
     fun startRoute() {
         _routeState.update {
@@ -49,12 +64,15 @@ class VanGuardRepository {
 
     fun dispatchRouteTelemetry(isBlocked: Boolean) {
         val route = _routeState.value
-        mqttDataSource.publishRouteStatus(
-            routeName = route.name,
-            stopsCount = route.stopsCountText,
-            state = route.state,
-            isBlockedAttempt = isBlocked
-        )
+        // Só envia telemetria se houver uma rota selecionada de fato
+        if (route.state != "Unselected") {
+            mqttDataSource.publishRouteStatus(
+                routeName = route.name,
+                stopsCount = route.stopsCountText,
+                state = route.state,
+                isBlockedAttempt = isBlocked
+            )
+        }
     }
 
     fun getCompassData(): Flow<Pair<Float, String>> {

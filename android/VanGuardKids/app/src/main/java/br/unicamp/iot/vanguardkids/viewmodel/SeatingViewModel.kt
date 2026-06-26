@@ -15,10 +15,7 @@ import kotlinx.coroutines.launch
 class SeatingViewModel : ViewModel() {
 
     private val repository = VanGuardRepository()
-
-    val uiState: StateFlow<SeatingMqttState> =
-        repository.seatingState
-
+    val uiState: StateFlow<SeatingMqttState> = repository.seatingState
     val routeState: StateFlow<MockRoute> = repository.routeState
     private val _uiEvent = MutableSharedFlow<UiEvent>()
     val uiEvent: SharedFlow<UiEvent> = _uiEvent.asSharedFlow()
@@ -27,21 +24,17 @@ class SeatingViewModel : ViewModel() {
             repository.startSensors()
         }
     }
-
-    // Gerencia o clique baseado no Estado Atual da Máquina de Estados
     fun handleRouteAction() {
         viewModelScope.launch {
             val currentState = routeState.value.state
 
             when (currentState) {
                 "Stop" -> {
-                    // Primeiro clique: Inicia o percurso
                     repository.startRoute()
                     _uiEvent.emit(UiEvent.ShowToast("Rota Iniciada com Sucesso!"))
                 }
 
                 "In Progress" -> {
-                    // Segundo clique: Valida os sensores físicos de peso antes de fechar
                     val currentSeats = uiState.value.seats
                     val containsOccupants = currentSeats.values.any { it.isOccupied == true }
 
@@ -61,14 +54,32 @@ class SeatingViewModel : ViewModel() {
         }
     }
 
-    sealed interface UiEvent {
-        data class ShowSecurityDialog(val message: String) : UiEvent
-        object ShowSuccessToast : UiEvent
-        data class ShowToast(val message: String) : UiEvent
+    // Dispara a lista de opções mockadas em memória para o Fragment exibir na tela flutuante
+    fun manageRoute() {
+        viewModelScope.launch {
+            val routes = VanGuardRepository.AVAILABLE_ROUTES
+            _uiEvent.emit(UiEvent.ShowRouteSelectionDialog(routes))
+        }
+    }
+
+    // Aplica a nova rota selecionada no repositório e emite a confirmação
+    fun onRouteSelected(route: MockRoute) {
+        viewModelScope.launch {
+            repository.selectRoute(route)
+            _uiEvent.emit(UiEvent.ShowToast("Nova rota ativa: ${route.name}"))
+        }
     }
 
     override fun onCleared() {
         repository.stopSensors()
         super.onCleared()
+    }
+
+    sealed interface UiEvent {
+        data class ShowSecurityDialog(val message: String) : UiEvent
+        // NOVO: Evento tipado para carregar a coleção de rotas
+        data class ShowRouteSelectionDialog(val routes: List<MockRoute>) : UiEvent
+        object ShowSuccessToast : UiEvent
+        data class ShowToast(val message: String) : UiEvent
     }
 }
