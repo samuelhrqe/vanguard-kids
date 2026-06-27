@@ -21,6 +21,7 @@ import br.unicamp.iot.vanguardkids.data.mqtt.SEAT_IDS
 import br.unicamp.iot.vanguardkids.data.mqtt.SeatReading
 import br.unicamp.iot.vanguardkids.repository.MockRoute
 import br.unicamp.iot.vanguardkids.viewmodel.SeatingViewModel
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -57,8 +58,12 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
             "seat-04" to view.findViewById<View>(R.id.cardSeat04)
         )
 
-        val btnEndRoute = view.findViewById<Button>(R.id.btnEndRoute)
-        val btnManageRoute = view.findViewById<Button>(R.id.btnManageRoute)
+//        val btnEndRoute = view.findViewById<Button>(R.id.btnEndRoute)
+//        val btnManageRoute = view.findViewById<Button>(R.id.btnManageRoute)
+
+        // Mude de <Button> para <MaterialButton>
+        val btnEndRoute = view.findViewById<MaterialButton>(R.id.btnEndRoute)
+        val btnManageRoute = view.findViewById<MaterialButton>(R.id.btnManageRoute)
 
         val tvRouteName = view.findViewById<TextView>(R.id.tvRouteName)
         val tvRouteStart = view.findViewById<TextView>(R.id.tvRouteStart)
@@ -124,23 +129,25 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
 
                         when (route.state) {
                             "Unselected" -> {
-                                // Estado inicial com o botão bloqueado aguardando seleção da rota
                                 btnEndRoute.text = "INICIAR ROTA"
                                 btnEndRoute.backgroundTintList = ColorStateList.valueOf(
                                     Color.parseColor("#78909C")) // Cinza Neutro
                                 btnEndRoute.isEnabled = false
                                 btnEndRoute.alpha = 0.5f
+                                // Define o ícone inicial da bandeira de largada
+                                btnEndRoute.setIconResource(R.drawable.ic_flag)
 
                                 btnManageRoute.isEnabled = true
                                 btnManageRoute.alpha = 1.0f
                             }
                             "Stop" -> {
-                                // Habilita o botão verde para iniciar após o motorista selecionar a rota
                                 btnEndRoute.text = "INICIAR ROTA"
                                 btnEndRoute.backgroundTintList = ColorStateList.valueOf(
                                     Color.parseColor("#4CAF50")) // Verde
                                 btnEndRoute.isEnabled = true
                                 btnEndRoute.alpha = 1.0f
+                                // Mantém a bandeira de largada, pois está pronto para iniciar
+                                btnEndRoute.setIconResource(R.drawable.ic_flag)
 
                                 btnManageRoute.isEnabled = true
                                 btnManageRoute.alpha = 1.0f
@@ -151,6 +158,8 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
                                     Color.parseColor("#FF4B4B")) // Vermelho
                                 btnEndRoute.isEnabled = true
                                 btnEndRoute.alpha = 1.0f
+                                // Altera dinamicamente para a bandeira cortada (Encerrar)
+                                btnEndRoute.setIconResource(R.drawable.ic_flag_off)
 
                                 btnManageRoute.isEnabled = false
                                 btnManageRoute.alpha = 0.4f
@@ -161,6 +170,8 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
                                     Color.parseColor("#78909C")) // Cinza
                                 btnEndRoute.isEnabled = false
                                 btnEndRoute.alpha = 0.4f
+                                // Passar '0' remove o ícone do botão
+                                btnEndRoute.setIconResource(0)
 
                                 btnManageRoute.isEnabled = true
                                 btnManageRoute.alpha = 1.0f
