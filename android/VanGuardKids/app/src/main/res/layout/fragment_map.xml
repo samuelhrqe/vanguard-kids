@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/imgMapBackground"
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mapContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:contentDescription="Mapa da Estrada"
-        android:scaleType="centerCrop"
-        android:src="@drawable/road"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="#222631"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toTopOf="@+id/tvAzimuthValue"
-        android:layout_marginBottom="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgMapBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Mapa da Estrada"
+            android:scaleType="centerCrop"
+            android:src="@drawable/road" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <ImageView
         android:id="@+id/imgCompass"
@@ -24,11 +34,11 @@
         android:layout_height="60dp"
         android:contentDescription="Seta de Navegação"
         android:src="@drawable/navigation"
-        app:layout_constraintBottom_toBottomOf="@+id/imgMapBackground"
-        app:layout_constraintEnd_toEndOf="@+id/imgMapBackground"
+        app:layout_constraintBottom_toBottomOf="@+id/mapContainer"
+        app:layout_constraintEnd_toEndOf="@+id/mapContainer"
         app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="@+id/imgMapBackground"
-        app:layout_constraintTop_toTopOf="@+id/imgMapBackground"
+        app:layout_constraintStart_toStartOf="@+id/mapContainer"
+        app:layout_constraintTop_toTopOf="@+id/mapContainer"
         app:layout_constraintVertical_bias="0.857" />
 
     <TextView
