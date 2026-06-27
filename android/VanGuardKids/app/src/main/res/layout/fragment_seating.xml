@@ -47,8 +47,9 @@
                         android:layout_width="82dp"
                         android:layout_height="82dp"
                         android:contentDescription="Assento 01"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/banco_verde" />
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/outline_airline_seat_recline_extra_24"
+                        app:tint="#2CE416" />
 
                     <TextView
                         android:id="@+id/tvSeat01"
@@ -57,11 +58,10 @@
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:maxLines="2"
-                        android:text="01&#10;Livre"
+                        android:text="01\nLivre"
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="15sp" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -78,8 +78,9 @@
                         android:layout_width="82dp"
                         android:layout_height="82dp"
                         android:contentDescription="Assento 02"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/banco_verde" />
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/outline_airline_seat_recline_extra_24"
+                        app:tint="#2CE416" />
 
                     <TextView
                         android:id="@+id/tvSeat02"
@@ -88,11 +89,10 @@
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:maxLines="2"
-                        android:text="02&#10;Livre"
+                        android:text="02\nLivre"
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="15sp" />
-
                 </LinearLayout>
 
             </LinearLayout>
@@ -117,8 +117,9 @@
                         android:layout_width="82dp"
                         android:layout_height="82dp"
                         android:contentDescription="Assento 03"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/banco_verde" />
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/outline_airline_seat_recline_extra_24"
+                        app:tint="#2CE416" />
 
                     <TextView
                         android:id="@+id/tvSeat03"
@@ -127,11 +128,10 @@
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:maxLines="2"
-                        android:text="03&#10;Livre"
+                        android:text="03\nLivre"
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="15sp" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -148,8 +148,9 @@
                         android:layout_width="82dp"
                         android:layout_height="82dp"
                         android:contentDescription="Assento 04"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/banco_verde" />
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/outline_airline_seat_recline_extra_24"
+                        app:tint="#2CE416" />
 
                     <TextView
                         android:id="@+id/tvSeat04"
@@ -158,11 +159,10 @@
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:maxLines="2"
-                        android:text="04&#10;Livre"
+                        android:text="04\nLivre"
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="15sp" />
-
                 </LinearLayout>
 
             </LinearLayout>
@@ -190,12 +190,10 @@
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:textStyle="bold"
-
                 app:icon="@drawable/ic_flag"
                 app:iconTint="@android:color/white"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -214,12 +212,10 @@
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:textStyle="bold"
-
                 app:icon="@drawable/ic_route"
                 app:iconTint="@android:color/white"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
-
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -285,7 +281,6 @@
                         android:text="8 paradas"
                         android:textColor="#C3CAD4"
                         android:textSize="13sp" />
-
                 </LinearLayout>
 
                 <TextView
@@ -300,7 +295,6 @@
                     android:text="Verificando assentos"
                     android:textColor="#C3CAD4"
                     android:textSize="12sp" />
-
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

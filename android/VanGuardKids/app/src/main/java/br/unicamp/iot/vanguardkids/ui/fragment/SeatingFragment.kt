@@ -269,11 +269,11 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
 
         if (occupied) {
             card.setBackgroundResource(R.drawable.bg_seat_card_occupied)
-            icon.setImageResource(R.drawable.banco_vermelho)
+            icon.setColorFilter(android.graphics.Color.parseColor("#FF4B4B"))
             text.text = "$seatNumber\nOcupado"
         } else {
             card.setBackgroundResource(R.drawable.bg_seat_card_free)
-            icon.setImageResource(R.drawable.banco_verde)
+            icon.setColorFilter(android.graphics.Color.parseColor("#4CAF50"))
             text.text = "$seatNumber\nLivre"
         }
     }
