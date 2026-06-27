@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:padding="4dp">
 
-    <!-- Bloco central com assentos, rotas e conexão -->
     <LinearLayout
         android:id="@+id/contentContainer"
         android:layout_width="0dp"
@@ -19,7 +18,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.50">
 
-        <!-- Grade dos assentos -->
         <LinearLayout
             android:id="@+id/seatsContainer"
             android:layout_width="wrap_content"
@@ -39,7 +37,7 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/bg_seat_card_unknown"
+                    android:background="@drawable/bg_seat_card_free"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp">
@@ -59,7 +57,7 @@
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:maxLines="2"
-                        android:text="01&#10;Sem dados"
+                        android:text="01&#10;Livre"
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="15sp" />
@@ -70,7 +68,7 @@
                     android:id="@+id/cardSeat02"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:background="@drawable/bg_seat_card_unknown"
+                    android:background="@drawable/bg_seat_card_free"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp">
@@ -90,7 +88,7 @@
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:maxLines="2"
-                        android:text="02&#10;Sem dados"
+                        android:text="02&#10;Livre"
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="15sp" />
@@ -109,7 +107,7 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/bg_seat_card_unknown"
+                    android:background="@drawable/bg_seat_card_free"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp">
@@ -129,7 +127,7 @@
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:maxLines="2"
-                        android:text="03&#10;Sem dados"
+                        android:text="03&#10;Livre"
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="15sp" />
@@ -140,7 +138,7 @@
                     android:id="@+id/cardSeat04"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:background="@drawable/bg_seat_card_unknown"
+                    android:background="@drawable/bg_seat_card_free"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp">
@@ -160,7 +158,7 @@
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:maxLines="2"
-                        android:text="04&#10;Sem dados"
+                        android:text="04&#10;Livre"
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="15sp" />
@@ -171,7 +169,6 @@
 
         </LinearLayout>
 
-        <!-- Controles e dados da rota -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/routeActionsContainer"
             android:layout_width="match_parent"
@@ -214,7 +211,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- Informações da rota -->
             <LinearLayout
                 android:id="@+id/routeInfoContainer"
                 android:layout_width="0dp"
@@ -297,7 +293,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Estado da conexão MQTT -->
         <TextView
             android:id="@+id/tvMqttStatus"
             android:layout_width="wrap_content"

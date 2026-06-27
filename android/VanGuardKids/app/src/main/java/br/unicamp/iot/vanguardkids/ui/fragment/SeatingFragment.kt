@@ -230,40 +230,19 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
         card: View
     ) {
         val seatNumber = seat.seatId.removePrefix("seat-")
-        val weight = seat.weightGrams
         val occupied = seat.isOccupied
 
-        if (weight == null || occupied == null) {
-            card.setBackgroundResource(R.drawable.bg_seat_card_unknown)
-            icon.setImageResource(R.drawable.banco_verde)
-            icon.alpha = 0.35f
-            text.alpha = 0.7f
-            text.text = "$seatNumber\nSem dados"
-            return
-        }
-
-        icon.alpha = 1f
-        text.alpha = 1f
+        // Se ainda não tiver chegado leitura (null), mantém o layout XML padrão de Livre.
+        if (occupied == null) return
 
         if (occupied) {
-            card.setBackgroundResource(
-                R.drawable.bg_seat_card_occupied
-            )
-
+            card.setBackgroundResource(R.drawable.bg_seat_card_occupied)
             icon.setImageResource(R.drawable.banco_vermelho)
-
-            text.text =
-                "$seatNumber · ${formatWeight(weight)}\nOcupado"
-
+            text.text = "$seatNumber\nOcupado"
         } else {
-            card.setBackgroundResource(
-                R.drawable.bg_seat_card_free
-            )
-
+            card.setBackgroundResource(R.drawable.bg_seat_card_free)
             icon.setImageResource(R.drawable.banco_verde)
-
-            text.text =
-                "$seatNumber · ${formatWeight(weight)}\nLivre"
+            text.text = "$seatNumber\nLivre"
         }
     }
 
