@@ -2,6 +2,7 @@ package br.unicamp.iot.vanguardkids.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.unicamp.iot.vanguardkids.data.mqtt.SeatReading
 import br.unicamp.iot.vanguardkids.data.mqtt.SeatingMqttState
 import br.unicamp.iot.vanguardkids.repository.MockRoute
 import br.unicamp.iot.vanguardkids.repository.VanGuardRepository
@@ -36,13 +37,18 @@ class SeatingViewModel : ViewModel() {
 
                 "In Progress" -> {
                     val currentSeats = uiState.value.seats
-                    val containsOccupants = currentSeats.values.any { it.isOccupied == true }
 
-                    if (containsOccupants) {
+                    // Filtra e extrai a lista fr assentos ocupados
+                    val occupiedSeatsList = currentSeats.values.filter { it.isOccupied == true }
+
+                    if (occupiedSeatsList.isNotEmpty()) {
                         val errorMsg = "Bloqueado: Criança a bordo!"
                         repository.updateRouteState(errorMsg, nextState = "In Progress")
                         repository.dispatchRouteTelemetry(isBlocked = true)
-                        _uiEvent.emit(UiEvent.ShowSecurityDialog(errorMsg))
+
+                        // lista para o Fragment renderizar a Bandeja
+                        _uiEvent.emit(UiEvent.ShowSecurityDialog(occupiedSeatsList))
+
                     } else {
                         val successMsg = "Rota finalizada"
                         repository.updateRouteState(successMsg, nextState = "Completed")
@@ -76,7 +82,8 @@ class SeatingViewModel : ViewModel() {
     }
 
     sealed interface UiEvent {
-        data class ShowSecurityDialog(val message: String) : UiEvent
+        // collections de dados dos assentos
+        data class ShowSecurityDialog(val occupiedSeats: List<SeatReading>) : UiEvent
         // NOVO: Evento tipado para carregar a coleção de rotas
         data class ShowRouteSelectionDialog(val routes: List<MockRoute>) : UiEvent
         object ShowSuccessToast : UiEvent

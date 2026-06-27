@@ -20,6 +20,7 @@ import br.unicamp.iot.vanguardkids.R
 import br.unicamp.iot.vanguardkids.data.mqtt.SEAT_IDS
 import br.unicamp.iot.vanguardkids.data.mqtt.SeatReading
 import br.unicamp.iot.vanguardkids.repository.MockRoute
+import br.unicamp.iot.vanguardkids.ui.dialog.SafetyBottomSheet
 import br.unicamp.iot.vanguardkids.viewmodel.SeatingViewModel
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
@@ -184,8 +185,9 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
                 launch {
                     viewModel.uiEvent.collect { event ->
                         when (event) {
+                            // recebe a lista de assentos ocupados
                             is SeatingViewModel.UiEvent.ShowSecurityDialog -> {
-                                displaySafetyAlert(event.message)
+                                displaySafetyAlert(event.occupiedSeats)
                             }
                             is SeatingViewModel.UiEvent.ShowRouteSelectionDialog -> {
                                 openRouteSelectionDialog(event.routes)
@@ -247,14 +249,10 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
         alertDialog.show()
     }
 
-    private fun displaySafetyAlert(message: String) {
-        AlertDialog.Builder(requireContext())
-            .setTitle("TRAVA DE SEGURANÇA INTERNA")
-            .setMessage("$message\n\nA rota não pôde ser encerrada. " +
-                    "Uma notificação crítica foi despachada para a central.")
-            .setPositiveButton("OK", null)
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .show()
+    private fun displaySafetyAlert(occupiedSeats: List<SeatReading>) {
+        val bottomSheet = SafetyBottomSheet(occupiedSeats)
+        // O parentFragmentManager injeta a bandeja no topo da hierarquia visual
+        bottomSheet.show(parentFragmentManager, "SafetyBottomSheet")
     }
 
     private fun renderSeat(
