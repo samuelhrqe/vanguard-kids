@@ -196,10 +196,7 @@ class MqttDataSource {
 
             val seatIdFromPayload = json.stringOrNull("seat")
 
-            if (
-                seatIdFromPayload != null &&
-                seatIdFromPayload != seatIdFromTopic
-            ) {
+            if (seatIdFromPayload != null && seatIdFromPayload != seatIdFromTopic) {
                 Log.w(
                     TAG,
                     "Assento do JSON diferente do tópico. " +
@@ -216,14 +213,8 @@ class MqttDataSource {
                 voltage = json.doubleOrNull("voltage"),
                 weightGrams = weightGrams,
 
-                // Regra da aplicação:
-                // até 20 g = livre
-                // acima de 20 g = ocupado
-                isOccupied = weightGrams?.let {
-                    it > FREE_SEAT_THRESHOLD_G
-                },
+                isOccupied = json.booleanOrNull("occupied"),
 
-                reportedOccupied = json.booleanOrNull("occupied"),
                 timestampSeconds = json.longOrNull("ts"),
                 receivedAtMillis = System.currentTimeMillis()
             )
@@ -231,23 +222,16 @@ class MqttDataSource {
             _seatingState.update { currentState ->
                 currentState.copy(
                     mqttStatus = "Conectado ao broker",
-                    seats = currentState.seats + (
-                            seatIdFromTopic to seatReading
-                            )
+                    seats = currentState.seats + (seatIdFromTopic to seatReading)
                 )
             }
 
-            Log.d(
-                TAG,
-                "Assento $seatIdFromTopic atualizado: $weightGrams g"
-            )
+            Log.d(TAG,
+                "Assento $seatIdFromTopic atualizado: $weightGrams g" +
+                        " | Ocupado: ${seatReading.isOccupied}")
 
         } catch (e: Exception) {
-            Log.e(
-                TAG,
-                "JSON inválido recebido em $topic: $payload",
-                e
-            )
+            Log.e(TAG, "JSON inválido recebido em $topic: $payload", e)
         }
     }
 

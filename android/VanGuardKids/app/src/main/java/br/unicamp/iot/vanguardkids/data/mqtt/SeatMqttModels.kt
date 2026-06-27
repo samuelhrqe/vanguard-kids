@@ -1,7 +1,5 @@
 package br.unicamp.iot.vanguardkids.data.mqtt
 
-const val FREE_SEAT_THRESHOLD_G = 5000.0
-
 val SEAT_IDS = listOf(
     "seat-01",
     "seat-02",
@@ -16,11 +14,8 @@ data class SeatReading(
     val voltage: Double? = null,
     val weightGrams: Double? = null,
 
-    // Calculado localmente pelo Android usando weight_g.
+    // status booleano recebida do ESP32
     val isOccupied: Boolean? = null,
-
-    // Informação recebida do ESP32, mantida apenas para referência.
-    val reportedOccupied: Boolean? = null,
 
     val timestampSeconds: Long? = null,
     val receivedAtMillis: Long? = null
