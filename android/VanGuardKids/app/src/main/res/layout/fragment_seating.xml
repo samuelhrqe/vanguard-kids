@@ -300,9 +300,11 @@
             android:layout_marginTop="14dp"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:text="Conectando..."
+            android:text="Broker MQTT"
             android:textColor="#C3CAD4"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/shape_circle_status" />
 
     </LinearLayout>
 

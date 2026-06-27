@@ -75,7 +75,30 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
                 // Fluxo 1: Estado dos sensores de peso nos bancos
                 launch {
                     viewModel.uiState.collect { state ->
-                        tvMqttStatus.text = state.mqttStatus
+                        // Lógica visual do indicador MQTT
+                        val statusDrawable = tvMqttStatus.compoundDrawablesRelative[0]
+                        statusDrawable?.mutate()
+
+                        when (state.mqttStatus) {
+                            "Conectado ao broker" -> {
+                                // Ponto Verde = Online
+                                statusDrawable?.setTint(android.
+                                graphics.Color.parseColor("#4CAF50"))
+                                tvMqttStatus.text = "VanGuard Online"
+                            }
+                            "Conexão MQTT perdida", "Desconectado do broker", "Erro de conexão MQTT" -> {
+                                // Ponto Vermelho = Offline/Erro
+                                statusDrawable?.setTint(android.
+                                graphics.Color.parseColor("#FF4B4B"))
+                                tvMqttStatus.text = "VanGuard Offline"
+                            }
+                            else -> {
+                                // Ponto Amarelo/Laranja = Conectando / Tentando reconectar
+                                statusDrawable?.setTint(android.
+                                graphics.Color.parseColor("#FF9800"))
+                                tvMqttStatus.text = "Conectando..."
+                            }
+                        }
 
                         SEAT_IDS.forEach { seatId ->
                             val seatData = state.seats.getValue(seatId)
@@ -246,19 +269,4 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
         }
     }
 
-    private fun formatWeight(weightGrams: Double): String {
-        return if (weightGrams >= 1000) {
-            String.format(
-                Locale("pt", "BR"),
-                "%.1f kg",
-                weightGrams / 1000.0
-            )
-        } else {
-            String.format(
-                Locale("pt", "BR"),
-                "%.0f g",
-                weightGrams
-            )
-        }
-    }
 }
