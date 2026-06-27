@@ -3,6 +3,7 @@ package br.unicamp.iot.vanguardkids.ui.fragment
 import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -233,7 +234,7 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
                     setMargins(0, 0, 0, 16)
                 }
                 text = "${route.name} (${route.startTime})"
-                backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3A4454"))
+                setBackgroundResource(R.drawable.bg_route_option)
                 setTextColor(Color.WHITE)
                 isAllCaps = false
 
@@ -247,6 +248,9 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
 
         btnCancelDialog.setOnClickListener { alertDialog.dismiss() }
         alertDialog.show()
+        alertDialog.window?.setBackgroundDrawable(
+            ColorDrawable(Color.TRANSPARENT)
+        )
     }
 
     private fun displaySafetyAlert(occupiedSeats: List<SeatReading>) {

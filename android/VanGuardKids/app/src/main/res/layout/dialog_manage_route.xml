@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="24dp"
-    android:background="#2C3440">
+    android:background="@drawable/bg_route_selection_dialog">
 
     <TextView
         android:layout_width="wrap_content"
