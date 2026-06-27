@@ -171,7 +171,7 @@ class SeatingFragment : Fragment(R.layout.fragment_seating) {
                                 btnEndRoute.isEnabled = false
                                 btnEndRoute.alpha = 0.4f
                                 // Passar '0' remove o ícone do botão
-                                btnEndRoute.setIconResource(0)
+                                //btnEndRoute.setIconResource(0)
 
                                 btnManageRoute.isEnabled = true
                                 btnManageRoute.alpha = 1.0f
