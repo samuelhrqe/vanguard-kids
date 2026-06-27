@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallback
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.eclipse.paho.client.mqttv3.MqttMessage
@@ -98,11 +99,29 @@ class MqttDataSource {
 
             mqttClient = client
 
-            client.setCallback(object : MqttCallback {
+            // MqttCallbackExtended para detectar reconexões automáticas
+            client.setCallback(object : MqttCallbackExtended {
+
+                //  quando conecta pela primeira vez OU quando reconecta sozinho
+                override fun connectComplete(reconnect: Boolean, serverURI: String?) {
+                    if (reconnect) {
+                        Log.d(TAG, "Reconexão automática bem-sucedida! Restaurando assinaturas...")
+                        try {
+                            // Reinscreve nos tópicos pois isCleanSession = true apaga as assinaturas na queda
+                            client.subscribe(SEATS_TOPIC_FILTER, 1)
+                            client.subscribe(HEARTBEAT_TOPIC, 0)
+
+                            _seatingState.update {
+                                it.copy(mqttStatus = "Conectado ao broker")
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Erro ao restaurar assinaturas na reconexão", e)
+                        }
+                    }
+                }
 
                 override fun connectionLost(cause: Throwable?) {
-                    Log.e(TAG, "Conexão MQTT perdida", cause)
-
+                    Log.e(TAG, "Conexão MQTT perdida. A biblioteca tentará reconectar...", cause)
                     _seatingState.update {
                         it.copy(mqttStatus = "Conexão MQTT perdida")
                     }
@@ -122,11 +141,9 @@ class MqttDataSource {
                         receivedTopic == HEARTBEAT_TOPIC -> {
                             handleHeartbeat(payload)
                         }
-
                         receivedTopic.startsWith(SEATS_TOPIC_PREFIX) -> {
                             handleSeatMessage(receivedTopic, payload)
                         }
-
                         else -> {
                             Log.w(TAG, "Tópico não reconhecido: $receivedTopic")
                         }
@@ -138,6 +155,7 @@ class MqttDataSource {
 
             val options = MqttConnectOptions().apply {
                 isCleanSession = true
+                isAutomaticReconnect = true // NOVO: Delega a rotina de reconexão para a biblioteca
                 connectionTimeout = 10
                 keepAliveInterval = 20
 
@@ -170,7 +188,6 @@ class MqttDataSource {
             isConnecting = false
         }
     }
-
     private fun handleHeartbeat(payload: String) {
         _seatingState.update {
             it.copy(
