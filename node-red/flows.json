@@ -116,7 +116,7 @@
     {
         "id": "d8f095af7c24e4e0",
         "type": "ui-group",
-        "name": "Histórico dos Assentos ",
+        "name": "Seat History",
         "page": "83d1c78ab8d6b73c",
         "width": "12",
         "height": "1",
@@ -257,7 +257,7 @@
     {
         "id": "a20ac7b9301c957f",
         "type": "ui-group",
-        "name": "Histórico das Rotas",
+        "name": "Route History",
         "page": "83d1c78ab8d6b73c",
         "width": "6",
         "height": "1",
@@ -315,7 +315,7 @@
         "type": "ui-chart",
         "z": "e36b668a12db8bb5",
         "group": "d8f095af7c24e4e0",
-        "name": "Ocupação dos assentos",
+        "name": "Seat Occupancy",
         "label": "",
         "order": 1,
         "chartType": "line",
@@ -366,7 +366,7 @@
         "height": "7",
         "className": "history-card history-chart",
         "interpolation": "linear",
-        "x": 870,
+        "x": 840,
         "y": 120,
         "wires": [
             []
@@ -405,28 +405,10 @@
         "wires": [
             [
                 "6fbfe324298eb5a2",
-                "5b522b2a60e2d03a",
                 "5ee367f76d046d14",
                 "c0192d14c6ab4167"
             ]
         ]
-    },
-    {
-        "id": "5b522b2a60e2d03a",
-        "type": "debug",
-        "z": "e36b668a12db8bb5",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 820,
-        "y": 40,
-        "wires": []
     },
     {
         "id": "5ee367f76d046d14",
@@ -453,7 +435,7 @@
         "type": "ui-table",
         "z": "e36b668a12db8bb5",
         "group": "d8f095af7c24e4e0",
-        "name": "Tabela de dados",
+        "name": "Seating History Table",
         "label": "",
         "order": 2,
         "width": "0",
@@ -542,7 +524,7 @@
         "mobileBreakpointType": "defaults",
         "action": "replace",
         "className": "history-table-card",
-        "x": 1280,
+        "x": 1300,
         "y": 160,
         "wires": [
             []
@@ -650,30 +632,12 @@
         "y": 340,
         "wires": [
             [
-                "97badfebe57536e3",
-                "283d70aaf56a09fc"
+                "97badfebe57536e3"
             ],
             [
                 "8ffca381e93bf942"
             ]
         ]
-    },
-    {
-        "id": "283d70aaf56a09fc",
-        "type": "debug",
-        "z": "e36b668a12db8bb5",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1300,
-        "y": 280,
-        "wires": []
     },
     {
         "id": "4e9f6f7ccabab5a1",
@@ -813,50 +777,6 @@
         ]
     },
     {
-        "id": "d852e1b81fc88e1e",
-        "type": "function",
-        "z": "e36b668a12db8bb5",
-        "d": true,
-        "name": "Prepare Heartbeat card",
-        "func": "const lastHeartbeat = flow.get(\"lastHeartbeat\") || {\n    client_id: \"Unknown\",\n    seats: 0,\n    ts: null,\n    ts_ms: null,\n    last_seen: \"No heartbeat received\"\n};\n\n// Timeout gerado pelo Trigger\nif (msg.payload === \"OFFLINE\") {\n    msg.payload = {\n        ...lastHeartbeat,\n        online: false,\n        status: \"OFFLINE\"\n    };\n\n    return msg;\n}\n\n// Heartbeat normal\nif (\n    typeof msg.payload === \"object\" &&\n    msg.payload !== null\n) {\n    msg.payload = {\n        ...msg.payload,\n        online: true,\n        status: \"ONLINE\"\n    };\n\n    flow.set(\"lastHeartbeat\", msg.payload);\n\n    return msg;\n}\n\nnode.warn(`Unexpected payload: ${msg.payload}`);\nreturn null;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1690,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "b952fc54ec3a80d9",
-        "type": "ui-template",
-        "z": "e36b668a12db8bb5",
-        "d": true,
-        "group": "",
-        "page": "4342aa2013cfee5e",
-        "ui": "",
-        "name": "Hearbeat Card",
-        "order": 1,
-        "width": "0",
-        "height": "0",
-        "head": "",
-        "format": "<template>\n    <div\n        class=\"heartbeat-card\"\n        :class=\"\n            !msg || !msg.payload\n                ? 'waiting'\n                : msg.payload.online\n                    ? 'online'\n                    : 'offline'\n        \"\n    >\n        <div class=\"card-header\">\n            <div>\n                <div class=\"card-title\">ESP32 Status</div>\n                <div class=\"card-subtitle\">\n                    MQTT heartbeat monitoring\n                </div>\n            </div>\n\n            <div\n                class=\"status-badge\"\n                :class=\"\n                    !msg || !msg.payload\n                        ? 'waiting-badge'\n                        : msg.payload.online\n                            ? 'online-badge'\n                            : 'offline-badge'\n                \"\n            >\n                <span class=\"status-dot\"></span>\n\n                {{\n                    !msg || !msg.payload\n                        ? \"WAITING\"\n                        : msg.payload.status\n                }}\n            </div>\n        </div>\n\n        <div class=\"card-content\">\n            <div class=\"information-row\">\n                <span class=\"label\">Client ID</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.client_id\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Configured seats</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.seats\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Last heartbeat</span>\n                <span class=\"value\">\n                    {{\n                        msg && msg.payload\n                            ? msg.payload.last_seen\n                            : \"Waiting for heartbeat\"\n                    }}\n                </span>\n            </div>\n\n            <div class=\"information-row\">\n                <span class=\"label\">Epoch timestamp</span>\n                <span class=\"value timestamp\">\n                    {{\n                        msg && msg.payload && msg.payload.ts\n                            ? msg.payload.ts\n                            : \"—\"\n                    }}\n                </span>\n            </div>\n        </div>\n\n        <div\n            v-if=\"msg && msg.payload && !msg.payload.online\"\n            class=\"offline-warning\"\n        >\n            No heartbeat has been received within the expected interval.\n        </div>\n    </div>\n</template>\n\n<style scoped>\n.heartbeat-card {\n    width: calc(100% - 32px);;\n    max-width: 900px;\n    min-height: 210px;\n    margin: 24px auto;\n    padding: 20px;\n    border: 2px solid;\n    border-radius: 14px;\n    box-sizing: border-box;\n    transition: border-color 0.3s ease,\n                background-color 0.3s ease;\n}\n\n.heartbeat-card.online {\n    border-color: #2e7d32;\n    background-color: rgba(46, 125, 50, 0.08);\n}\n\n.heartbeat-card.offline {\n    border-color: #c62828;\n    background-color: rgba(198, 40, 40, 0.08);\n}\n\n.heartbeat-card.waiting {\n    border-color: #757575;\n    background-color: rgba(117, 117, 117, 0.08);\n}\n\n.card-header {\n    display: flex;\n    align-items: flex-start;\n    justify-content: space-between;\n    gap: 16px;\n    margin-bottom: 20px;\n}\n\n.card-title {\n    font-size: 1.25rem;\n    font-weight: 700;\n}\n\n.card-subtitle {\n    margin-top: 3px;\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.status-badge {\n    display: flex;\n    align-items: center;\n    gap: 7px;\n    padding: 7px 11px;\n    border-radius: 20px;\n    font-size: 0.75rem;\n    font-weight: 700;\n}\n\n.online-badge {\n    color: #1b5e20;\n    background-color: rgba(76, 175, 80, 0.2);\n}\n\n.offline-badge {\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.2);\n}\n\n.waiting-badge {\n    color: #424242;\n    background-color: rgba(158, 158, 158, 0.2);\n}\n\n.status-dot {\n    width: 9px;\n    height: 9px;\n    border-radius: 50%;\n    background-color: currentColor;\n}\n\n.information-row {\n    display: flex;\n    justify-content: space-between;\n    gap: 16px;\n    padding: 8px 0;\n    border-bottom: 1px solid rgba(128, 128, 128, 0.2);\n}\n\n.information-row:last-child {\n    border-bottom: none;\n}\n\n.label {\n    font-size: 0.85rem;\n    opacity: 0.7;\n}\n\n.value {\n    font-weight: 600;\n    text-align: right;\n}\n\n.timestamp {\n    font-family: monospace;\n}\n\n.offline-warning {\n    margin-top: 16px;\n    padding: 10px;\n    border-radius: 8px;\n    color: #b71c1c;\n    background-color: rgba(244, 67, 54, 0.12);\n    font-size: 0.85rem;\n}\n</style>",
-        "storeOutMessages": true,
-        "passthru": true,
-        "resendOnRefresh": true,
-        "templateScope": "widget:page",
-        "className": "",
-        "x": 1660,
-        "y": 340,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "8ffca381e93bf942",
         "type": "ui-notification",
         "z": "e36b668a12db8bb5",
@@ -978,7 +898,7 @@
         "order": 1,
         "width": 0,
         "height": 0,
-        "maxrows": 0,
+        "maxrows": "8",
         "passthru": false,
         "autocols": false,
         "showSearch": true,
