@@ -8,7 +8,7 @@ Firmware ESP32 para o projeto Vanguard Kids. O sistema monitora quatro assentos 
 - ESP-IDF >= v5.0 e < v6.0: [Como instalar](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html)
 - MQTT Broker: [Mosquitto](https://mosquitto.org/download/)
 - Conta no simulador [Wokwi](https://wokwi.com/)
-- Extensão [Wokwi Simulator](https://marketplace.visualstudio.com/items?itemName=Wokwi.wokwi-vscode) para VS Code 
+- Extensão [Wokwi Simulator](https://marketplace.visualstudio.com/items?itemName=Wokwi.wokwi-vscode) para VS Code
 - Caso queira montar o circuito físico, você precisará de:
   - ESP32 DevKitC
   - 4 potenciômetros (10kΩ)
@@ -18,12 +18,20 @@ Firmware ESP32 para o projeto Vanguard Kids. O sistema monitora quatro assentos 
 
 O circuito de prototipagem conecta quatro potenciômetros aos canais ADC do ESP32, simulando os assentos. Cada potenciômetro representa um assento e varia a resistência para simular diferentes pesos. A tabela abaixo mostra o mapeamento dos potenciômetros para os GPIOs correspondentes:
 
-| Potenciômetro | Cor do fio | SIG |
-| :---: | :---: | :---: |
-| `1` | `VERDE` | GPIO34 |
-| `2` | `CINZA` | GPIO35 |
-| `3` | `BRANCO` | GPIO32 |
-| `4` | `ROSA` | GPIO33 |
+<!-- markdownlint-disable MD033 -->
+<div align="center">
+
+  | Potenciômetro | Cor do fio | SIG |
+  | :---: | :---: | :---: |
+  | `1` | `VERDE` | GPIO34 |
+  | `2` | `CINZA` | GPIO35 |
+  | `3` | `BRANCO` | GPIO32 |
+  | `4` | `ROSA` | GPIO33 |
+
+</div>
+
+<p align="center"><em>Tabela 1: Mapeamento dos assentos e canais ADC</em></p>
+<!-- markdownlint-enable MD033 -->
 
 A Figura 1 ilustra o circuito de prototipagem.
 
@@ -119,12 +127,20 @@ O fluxo de publicação MQTT é detalhado na [Figura 4](docs/vtaskmqtt_flow.png)
 
 A aplicação monitora 4 entradas ADC:
 
-| Assento | Canal ADC | GPIO |
-| --- | --- | --- |
-| `seat-01` | `ADC_CHANNEL_6` | GPIO34 |
-| `seat-02` | `ADC_CHANNEL_7` | GPIO35 |
-| `seat-03` | `ADC_CHANNEL_4` | GPIO32 |
-| `seat-04` | `ADC_CHANNEL_5` | GPIO33 |
+<!-- markdownlint-disable MD033 -->
+<div align="center">
+
+  | Assento | Canal ADC | GPIO |
+  | --- | --- | --- |
+  | `seat-01` | `ADC_CHANNEL_6` | GPIO34 |
+  | `seat-02` | `ADC_CHANNEL_7` | GPIO35 |
+  | `seat-03` | `ADC_CHANNEL_4` | GPIO32 |
+  | `seat-04` | `ADC_CHANNEL_5` | GPIO33 |
+
+</div>
+
+<p align="center"><em>Tabela 2: Mapeamento dos assentos e canais ADC</em></p>
+<!-- markdownlint-enable MD033 -->
 
 Parâmetros importantes:
 
