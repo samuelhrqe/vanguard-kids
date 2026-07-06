@@ -4,6 +4,8 @@
 
 O aplicativo foi desenvolvido utilizando a arquitetura **MVVM (Model-View-ViewModel)**, garantindo a separação de responsabilidades entre a interface, a lógica de negócios e o consumo de dados.
 
+![Diagrama de Arquitetura do VanGuard Kids](docs/arch.png)
+
 A estrutura de pastas (`br.unicamp.iot.vanguardkids`) está dividida da seguinte forma:
 
 * **`/data`**: Camada de dados responsável por buscar informações externas.
@@ -20,6 +22,10 @@ A estrutura de pastas (`br.unicamp.iot.vanguardkids`) está dividida da seguinte
 ---
 
 ## 2. Fluxo do Usuário
+
+Abaixo, o diagrama detalhando o fluxo de interação do motorista e o laço de segurança do sistema:
+
+![Fluxo do Usuário](docs/fluxo.png)
 
 1. **Inicialização:** O motorista abre o app, que automaticamente tenta estabelecer conexão com o Broker MQTT e os sensores via AIDL. O status da conexão é exibido na tela (`StatusFragment`).
 2. **Monitoramento em Tempo Real:** Durante o trajeto, a interface é atualizada em tempo real. O `SeatingFragment` altera a cor dos assentos (Verde = Livre, Vermelho = Ocupado) de acordo com os dados recebidos dos dispositivos IoT.
