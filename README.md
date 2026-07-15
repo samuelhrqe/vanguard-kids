@@ -10,6 +10,8 @@ O **VanGuard Kids** é um sistema de monitoramento de assentos voltado para veí
 
 A proposta do projeto é auxiliar motoristas e responsáveis na identificação da presença de crianças no interior do veículo, especialmente ao final de uma rota. O sistema monitora os assentos por meio de sensores de pressão, exibe o estado de ocupação em um aplicativo Android embarcado e gera alertas visuais em situações de risco.
 
+Vídeo demonstrativo do protótipo: [Capacitação em IoT & Android Embarcado | Projeto Final | VanGuard Kids](https://youtu.be/3pfaNkhZVWY).
+
 ## Problema abordado
 
 No transporte escolar, há risco de crianças serem esquecidas dentro do veículo após o encerramento da rota, especialmente quando estão dormindo, em assentos menos visíveis ou não são percebidas pelo motorista durante o desembarque.
